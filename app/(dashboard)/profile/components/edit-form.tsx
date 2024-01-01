@@ -28,7 +28,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
@@ -101,14 +100,14 @@ export function EditForm({
   async function onSubmit(data: z.infer<typeof formSchema>) {
     const result = await handleUpdateProfile(data);
 
-    // const { error } = JSON.parse(result);
+    const { error } = JSON.parse(result);
 
-    // if (error) {
-    //   toast.error(error);
-    // } else {
-    //   toast.success("Account successfully created!");
-    //   router.push("/account/success");
-    // }
+    if (error) {
+      toast.error(error);
+    } else {
+      toast.success("Account successfully updated!");
+      router.refresh();
+    }
   }
 
   return (

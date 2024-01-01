@@ -1,8 +1,5 @@
-import Link from "next/link";
 import { User } from "./components/user";
 import { Separator } from "@/components/ui/separator";
-import { UserCog } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { EditProfile } from "@/app/(dashboard)/profile/components/edit-profile";
 
 export default async function DashboardPage() {
