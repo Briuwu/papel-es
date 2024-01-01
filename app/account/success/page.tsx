@@ -8,7 +8,7 @@ export default async function SuccessPage() {
     data: { session },
   } = await readUserSession();
 
-  if (session) {
+  if (!session) {
     return (
       <main className="min-h-screen flex items-center justify-center flex-col text-center space-y-5">
         <ShieldCheck className="w-32 h-32 text-green-500" />

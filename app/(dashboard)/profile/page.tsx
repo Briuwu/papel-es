@@ -3,18 +3,14 @@ import { User } from "./components/user";
 import { Separator } from "@/components/ui/separator";
 import { UserCog } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { EditProfile } from "@/app/(dashboard)/profile/components/edit-profile";
 
 export default async function DashboardPage() {
   return (
     <>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-start justify-between gap-5 md:flex-row md:items-center">
         <User />
-        <Button asChild className="font-bold" variant={"outline"} size={"lg"}>
-          <Link href="/profile/edit" className="flex gap-2 items-center">
-            <UserCog size={16} />
-            <span>Edit Profile</span>
-          </Link>
-        </Button>
+        <EditProfile />
       </div>
       <Separator className="mt-5 h-[2px] bg-black" />
     </>

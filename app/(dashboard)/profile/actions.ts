@@ -2,6 +2,17 @@
 
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { transformMiddleInitial } from "@/lib/utils";
+import { formSchema } from "@/app/(dashboard)/profile/components/edit-form";
+import * as z from "zod";
+import { Tables } from "@/lib/supabase/database.types";
+
+type FormSchema = z.infer<typeof formSchema>;
+
+export type AddressType = Tables<"address">;
+
+export type ProfileType = Tables<"profiles">;
+
+type EditFormType = z.infer<typeof formSchema>;
 
 export async function handleLogout() {
   const supabase = await createSupabaseServerClient();
@@ -43,4 +54,12 @@ export async function getUserProfile() {
     email: session?.user.email,
     fullName,
   });
+}
+
+export async function handleUpdateProfile(data: EditFormType) {
+  const supabase = await createSupabaseServerClient();
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 }

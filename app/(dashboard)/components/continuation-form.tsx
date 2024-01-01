@@ -83,7 +83,10 @@ export function ContinuationForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-3">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid gap-3 text-left"
+      >
         <p className="md:text-xl font-bold">Personal Information</p>
         <FormField
           control={form.control}
@@ -107,13 +110,7 @@ export function ContinuationForm() {
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-[240px] pl-3 text-left font-normal",
-                        !field.value && "text-muted-foreground"
-                      )}
-                    >
+                    <Button variant={"outline"}>
                       {field.value ? (
                         format(field.value, "PPP")
                       ) : (
