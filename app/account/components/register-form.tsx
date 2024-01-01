@@ -17,6 +17,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { handleRegister } from "@/app/account/actions";
+import { useTransition } from "react";
 
 export const formSchema = z
   .object({
@@ -44,6 +45,7 @@ export const formSchema = z
   });
 export function RegisterForm() {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -56,17 +58,19 @@ export function RegisterForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    const result = await handleRegister(data);
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    startTransition(async () => {
+      const result = await handleRegister(data);
 
-    const { error } = JSON.parse(result);
+      const { error } = JSON.parse(result);
 
-    if (error) {
-      toast.error(error);
-    } else {
-      toast.success("Account successfully created!");
-      router.push("/account/success");
-    }
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success("Account successfully created!");
+        router.push("/account/success");
+      }
+    });
   }
 
   return (
@@ -155,7 +159,11 @@ export function RegisterForm() {
           )}
         />
         <div className="space-y-4 mt-5">
-          <Button type="submit" className="w-full block font-bold rounded-full">
+          <Button
+            type="submit"
+            className="w-full block font-bold rounded-full"
+            disabled={isPending}
+          >
             Register
           </Button>
         </div>

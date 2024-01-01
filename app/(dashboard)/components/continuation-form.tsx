@@ -24,10 +24,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { useTransition } from "react";
 
 export const formSchema = z.object({
   phone: z
@@ -67,6 +67,7 @@ export const formSchema = z.object({
 
 export function ContinuationForm() {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -76,17 +77,19 @@ export function ContinuationForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    const result = await handleContinuationForm(data);
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    startTransition(async () => {
+      const result = await handleContinuationForm(data);
 
-    const { error } = JSON.parse(result);
+      const { error } = JSON.parse(result);
 
-    if (error) {
-      toast.error(error);
-    } else {
-      toast.success("Your account has been updated.");
-      router.refresh();
-    }
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success("Your account has been updated.");
+        router.refresh();
+      }
+    });
   }
 
   return (
@@ -222,7 +225,11 @@ export function ContinuationForm() {
           />
         </div>
         <div className="space-y-4 mt-5">
-          <Button type="submit" className="block font-bold rounded-full">
+          <Button
+            type="submit"
+            className="block font-bold rounded-full"
+            disabled={isPending}
+          >
             Continue
           </Button>
         </div>

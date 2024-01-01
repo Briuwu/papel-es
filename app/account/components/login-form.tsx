@@ -15,6 +15,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { handleLogin } from "../actions";
 import { toast } from "sonner";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email" }),
@@ -23,6 +25,8 @@ const formSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters" }),
 });
 export function LoginForm() {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -31,17 +35,21 @@ export function LoginForm() {
     },
   });
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    const result = await handleLogin(data);
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    startTransition(async () => {
+      const result = await handleLogin(data);
 
-    const { error } = JSON.parse(result);
+      const { error } = JSON.parse(result);
 
-    if (error) {
-      toast.error(error);
-    } else {
-      toast.success("Logged in successfully");
-    }
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success("Logged in successfully");
+        router.push("/profile");
+      }
+    });
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-5">
@@ -72,7 +80,11 @@ export function LoginForm() {
           )}
         />
         <div className="space-y-4 mt-5">
-          <Button type="submit" className="w-full block font-bold rounded-full">
+          <Button
+            type="submit"
+            className="w-full block font-bold rounded-full"
+            disabled={isPending}
+          >
             Log In
           </Button>
         </div>
