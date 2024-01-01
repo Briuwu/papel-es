@@ -43,18 +43,26 @@ export const formSchema = z.object({
   street: z.string({
     required_error: "A street is required.",
   }),
-  city: z.string({
-    required_error: "A city is required.",
-  }),
-  subdivision: z.string({
-    required_error: "A subdivision is required.",
-  }),
-  province: z.string({
-    required_error: "A province is required.",
-  }),
-  barangay: z.string({
-    required_error: "A barangay is required.",
-  }),
+  city: z
+    .string({
+      required_error: "A city is required.",
+    })
+    .min(3, "City must be at least 3 characters."),
+  subdivision: z
+    .string({
+      required_error: "A subdivision is required.",
+    })
+    .min(3, "Subdivision must be at least 3 characters."),
+  province: z
+    .string({
+      required_error: "A province is required.",
+    })
+    .min(3, "Province must be at least 3 characters."),
+  barangay: z
+    .string({
+      required_error: "A barangay is required.",
+    })
+    .min(3, "Barangay must be at least 3 characters."),
 });
 
 export function ContinuationForm() {
