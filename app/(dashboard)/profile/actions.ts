@@ -2,7 +2,7 @@
 
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { transformMiddleInitial } from "@/lib/utils";
-import { formSchema } from "@/app/profile/components/continuation-form";
+import { formSchema } from "@/app/(dashboard)/components/continuation-form";
 import * as z from "zod";
 import { Tables } from "@/lib/supabase/database.types";
 
@@ -40,18 +40,18 @@ export async function getUserProfile() {
   }
 
   if (!data) {
-    return null;
+    return JSON.stringify({ error: "User not found" });
   }
 
   const fullName = `${data?.first_name} ${transformMiddleInitial(
     data?.middle_name
   )} ${data?.last_name}`;
 
-  return {
-    data,
+  return JSON.stringify({
+    ...data,
     email: session?.user.email,
     fullName,
-  };
+  });
 }
 
 export async function handleContinuationForm(data: FormSchema) {
@@ -72,13 +72,14 @@ export async function handleContinuationForm(data: FormSchema) {
       street: data.street,
       subdivision: data.subdivision,
     })
-    .select();
+    .select()
+    .single();
 
   if (addressError || !addressResult) {
     return JSON.stringify({ error: addressError?.message });
   }
 
-  const address: AddressType = addressResult[0];
+  const address: AddressType = addressResult;
 
   const { data: user, error } = await supabase
     .from("profiles")
@@ -89,7 +90,8 @@ export async function handleContinuationForm(data: FormSchema) {
       isVerified: true,
     })
     .eq("id", session.user.id)
-    .select();
+    .select()
+    .single();
 
   if (error) {
     return JSON.stringify({ error: error.message });

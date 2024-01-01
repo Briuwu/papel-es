@@ -1,8 +1,8 @@
-import { Navbar } from "@/app/profile/components/navbar";
+import { Navbar } from "@/app/(dashboard)/profile/components/navbar";
 import { readUserSession } from "@/lib/supabase/read-session";
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import Continuation from "./components/continuation";
+import Continuation from "@/app/(dashboard)/components/continuation";
 
 export default async function RootLayout({
   children,
@@ -30,7 +30,7 @@ export default async function RootLayout({
   return (
     <>
       <Navbar />
-      {children}
+      <main className="container mt-16">{children}</main>
     </>
   );
 }

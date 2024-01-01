@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { handleContinuationForm } from "../actions";
+import { handleContinuationForm } from "../profile/actions";
 import {
   Popover,
   PopoverContent,

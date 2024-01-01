@@ -1,7 +1,9 @@
 import { User as UserIcon } from "lucide-react";
-import { getUserProfile } from "../actions";
+import { getUserProfile } from "@/app/(dashboard)/profile/actions";
 export async function User() {
-  const { data, email, fullName } = await getUserProfile();
+  const res = await getUserProfile();
+
+  const { fullName, email } = JSON.parse(res);
 
   return (
     <div className="flex flex-col md:flex-row md:items-center gap-5">

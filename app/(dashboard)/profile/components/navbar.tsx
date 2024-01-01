@@ -24,8 +24,8 @@ export function Navbar() {
     },
     {
       name: "Request Document",
-      path: "/profile/request",
-      active: "/profile/request" === pathname,
+      path: "/request",
+      active: "/request" === pathname,
     },
   ];
   return (
