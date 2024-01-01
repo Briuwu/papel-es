@@ -30,7 +30,7 @@ export default async function RootLayout({
   return (
     <>
       <Navbar />
-      <main className="container mt-16">{children}</main>
+      <main className="container my-16">{children}</main>
     </>
   );
 }
