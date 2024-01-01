@@ -31,6 +31,7 @@ import {
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { useTransition } from "react";
 
 export const formSchema = z.object({
   firstName: z
@@ -81,6 +82,7 @@ export function EditForm({
   address: AddressType;
 }) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -97,17 +99,19 @@ export function EditForm({
     },
   });
 
-  async function onSubmit(data: z.infer<typeof formSchema>) {
-    const result = await handleUpdateProfile(data);
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    startTransition(async () => {
+      const result = await handleUpdateProfile(data);
 
-    const { error } = JSON.parse(result);
+      const { error } = JSON.parse(result);
 
-    if (error) {
-      toast.error(error);
-    } else {
-      toast.success("Account successfully updated!");
-      router.refresh();
-    }
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success("Account successfully updated!");
+        router.push("/account");
+      }
+    });
   }
 
   return (
@@ -283,7 +287,11 @@ export function EditForm({
         </div>
 
         <div className="space-y-4 mt-5">
-          <Button type="submit" className="block font-bold rounded ml-auto">
+          <Button
+            type="submit"
+            className="block font-bold rounded ml-auto"
+            disabled={isPending}
+          >
             Update Profile
           </Button>
         </div>

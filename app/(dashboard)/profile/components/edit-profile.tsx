@@ -11,7 +11,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { redirect } from "next/navigation";
 
 export async function EditProfile() {

@@ -41,7 +41,7 @@ export async function handleContinuationForm(data: FormSchema) {
     .from("profiles")
     .update({
       phone_number: data.phone,
-      date_of_birth: data.dob.toLocaleDateString(),
+      date_of_birth: data.dob.toLocaleString(),
       address_id: address.id,
       isVerified: true,
     })
