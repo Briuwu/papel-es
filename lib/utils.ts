@@ -6,6 +6,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const transformMiddleInitial = (middleName: string | null) => {
-  if (!middleName) return null;
+  if (!middleName) return "";
   return `${middleName[0]}.`;
 };
