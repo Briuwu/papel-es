@@ -51,6 +51,27 @@ export const formSchema = z.object({
   dob: z.date({
     required_error: "A date of birth is required.",
   }),
+  street: z.string({
+    required_error: "A street is required.",
+  }),
+  city: z
+    .string({
+      required_error: "A city is required.",
+    })
+    .min(3, "City must be at least 3 characters."),
+  subdivision: z.string({
+    required_error: "A subdivision is required.",
+  }),
+  province: z
+    .string({
+      required_error: "A province is required.",
+    })
+    .min(3, "Province must be at least 3 characters."),
+  barangay: z
+    .string({
+      required_error: "A barangay is required.",
+    })
+    .min(3, "Barangay must be at least 3 characters."),
 });
 
 export function EditForm({
@@ -69,6 +90,11 @@ export function EditForm({
       lastName: user.last_name || "",
       phone: user.phone_number || "",
       dob: new Date(user.date_of_birth || ""),
+      street: address.street || "",
+      subdivision: address.subdivision || "",
+      barangay: address.barangay || "",
+      city: address.city || "",
+      province: address.province || "",
     },
   });
 
@@ -179,6 +205,78 @@ export function EditForm({
                 <FormDescription>
                   Your date of birth is used to calculate your age.
                 </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <div className="grid gap-5 grid-cols-1 md:grid-cols-2">
+          <p className="font-bold md:col-span-2">Address Information</p>
+          <FormField
+            control={form.control}
+            name="street"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Street</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Blk 99 Lot 99 Phase 0A Alley 99"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="subdivision"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Subdivision</FormLabel>
+                <FormControl>
+                  <Input placeholder="Grand Riverside" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="barangay"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Barangay</FormLabel>
+                <FormControl>
+                  <Input placeholder="Pasong Camachile 1" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>City</FormLabel>
+                <FormControl>
+                  <Input placeholder="General Trias" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="province"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Province</FormLabel>
+                <FormControl>
+                  <Input placeholder="Cavite" {...field} />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

@@ -59,8 +59,7 @@ export async function EditProfile() {
               Currently editing {user.first_name} {user.last_name}
             </SheetDescription>
           </SheetHeader>
-          {/* <EditForm user={user} address={address} /> */}
-          Not yet implemented.
+          <EditForm user={user} address={address} />
         </SheetContent>
       </Sheet>
     </>
