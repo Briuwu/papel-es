@@ -60,7 +60,11 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Email Address" {...field} />
+                <Input
+                  placeholder="Email Address"
+                  {...field}
+                  disabled={isPending}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -73,7 +77,12 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="Password" type="password" {...field} />
+                <Input
+                  placeholder="Password"
+                  type="password"
+                  {...field}
+                  disabled={isPending}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

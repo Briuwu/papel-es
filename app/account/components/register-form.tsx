@@ -83,7 +83,11 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Email Address" {...field} />
+                <Input
+                  placeholder="Email Address"
+                  {...field}
+                  disabled={isPending}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -96,7 +100,11 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>First Name</FormLabel>
               <FormControl>
-                <Input placeholder="First Name" {...field} />
+                <Input
+                  placeholder="First Name"
+                  {...field}
+                  disabled={isPending}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -109,7 +117,11 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Middle Name (optional)</FormLabel>
               <FormControl>
-                <Input placeholder="Middle Name" {...field} />
+                <Input
+                  placeholder="Middle Name"
+                  {...field}
+                  disabled={isPending}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -122,7 +134,11 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Last Name</FormLabel>
               <FormControl>
-                <Input placeholder="Last Name" {...field} />
+                <Input
+                  placeholder="Last Name"
+                  {...field}
+                  disabled={isPending}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -135,7 +151,12 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="Password" type="password" {...field} />
+                <Input
+                  placeholder="Password"
+                  type="password"
+                  {...field}
+                  disabled={isPending}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -152,6 +173,7 @@ export function RegisterForm() {
                   placeholder="Confirm Password"
                   type="password"
                   {...field}
+                  disabled={isPending}
                 />
               </FormControl>
               <FormMessage />

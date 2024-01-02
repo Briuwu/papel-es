@@ -159,7 +159,11 @@ export function BarangayClearanceForm({
               <FormLabel className="font-semibold">
                 Purpose of requesting
               </FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled={isPending}
+              >
                 <FormControl>
                   <SelectTrigger>
                     <SelectValue placeholder="Select a valid purpose" />
@@ -188,7 +192,11 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="First Name" {...field} />
+                  <Input
+                    placeholder="First Name"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -201,7 +209,11 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>Middle Name (optional)</FormLabel>
                 <FormControl>
-                  <Input placeholder="Middle Name" {...field} />
+                  <Input
+                    placeholder="Middle Name"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -214,7 +226,11 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Last Name" {...field} />
+                  <Input
+                    placeholder="Last Name"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -227,7 +243,11 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
-                  <Input placeholder="09123456789" {...field} />
+                  <Input
+                    placeholder="09123456789"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -240,7 +260,7 @@ export function BarangayClearanceForm({
               <FormItem className="flex flex-col">
                 <FormLabel>Date of birth</FormLabel>
                 <Popover>
-                  <PopoverTrigger asChild>
+                  <PopoverTrigger asChild disabled={isPending}>
                     <FormControl>
                       <Button variant={"outline"}>
                         {field.value ? (
@@ -288,6 +308,7 @@ export function BarangayClearanceForm({
                   <Input
                     placeholder="Blk 99 Lot 99 Phase 0A Alley 99"
                     {...field}
+                    disabled={isPending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -301,7 +322,11 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>Subdivision</FormLabel>
                 <FormControl>
-                  <Input placeholder="Grand Riverside" {...field} />
+                  <Input
+                    placeholder="Grand Riverside"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -314,7 +339,11 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>Barangay</FormLabel>
                 <FormControl>
-                  <Input placeholder="Pasong Camachile 1" {...field} />
+                  <Input
+                    placeholder="Pasong Camachile 1"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -327,7 +356,11 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>City</FormLabel>
                 <FormControl>
-                  <Input placeholder="General Trias" {...field} />
+                  <Input
+                    placeholder="General Trias"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -340,7 +373,7 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>Province</FormLabel>
                 <FormControl>
-                  <Input placeholder="Cavite" {...field} />
+                  <Input placeholder="Cavite" {...field} disabled={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -376,6 +409,7 @@ export function BarangayClearanceForm({
                   type="file"
                   {...fileRef}
                   accept="image/png, image/jpeg, image/jpg"
+                  disabled={isPending}
                 />
               </FormControl>
               <FormMessage />

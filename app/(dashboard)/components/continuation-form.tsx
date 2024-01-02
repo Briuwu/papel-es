@@ -106,7 +106,11 @@ export function ContinuationForm() {
             <FormItem>
               <FormLabel>Phone Number</FormLabel>
               <FormControl>
-                <Input placeholder="09123456789" {...field} />
+                <Input
+                  placeholder="09123456789"
+                  {...field}
+                  disabled={isPending}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -119,7 +123,7 @@ export function ContinuationForm() {
             <FormItem className="flex flex-col">
               <FormLabel>Date of birth</FormLabel>
               <Popover>
-                <PopoverTrigger asChild>
+                <PopoverTrigger asChild disabled={isPending}>
                   <FormControl>
                     <Button variant={"outline"}>
                       {field.value ? (
@@ -165,6 +169,7 @@ export function ContinuationForm() {
                   <Input
                     placeholder="Blk 99 Lot 99 Phase 0A Alley 99"
                     {...field}
+                    disabled={isPending}
                   />
                 </FormControl>
                 <FormMessage />
@@ -178,7 +183,11 @@ export function ContinuationForm() {
               <FormItem>
                 <FormLabel>Subdivision</FormLabel>
                 <FormControl>
-                  <Input placeholder="Grand Riverside" {...field} />
+                  <Input
+                    placeholder="Grand Riverside"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -191,7 +200,11 @@ export function ContinuationForm() {
               <FormItem>
                 <FormLabel>Barangay</FormLabel>
                 <FormControl>
-                  <Input placeholder="Pasong Camachile 1" {...field} />
+                  <Input
+                    placeholder="Pasong Camachile 1"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -204,7 +217,11 @@ export function ContinuationForm() {
               <FormItem>
                 <FormLabel>City</FormLabel>
                 <FormControl>
-                  <Input placeholder="General Trias" {...field} />
+                  <Input
+                    placeholder="General Trias"
+                    {...field}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -217,7 +234,7 @@ export function ContinuationForm() {
               <FormItem>
                 <FormLabel>Province</FormLabel>
                 <FormControl>
-                  <Input placeholder="Cavite" {...field} />
+                  <Input placeholder="Cavite" {...field} disabled={isPending} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

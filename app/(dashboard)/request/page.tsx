@@ -13,32 +13,6 @@ export default async function RequestPage({
 }: {
   searchParams: { opt?: string };
 }) {
-  const {
-    data: { session },
-  } = await readUserSession();
-
-  if (!session) return redirect("/account");
-
-  const supabase = await createSupabaseServerClient();
-
-  if (!session) return redirect("/account");
-
-  const { data: user, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", session?.user?.id)
-    .single();
-
-  if (!user) return null;
-
-  const { data: address } = await supabase
-    .from("address")
-    .select("*")
-    .eq("id", user.address_id!)
-    .single();
-
-  if (!address) return null;
-
   const requests = [
     {
       id: 1,
@@ -75,12 +49,7 @@ export default async function RequestPage({
         <CardOptions requests={requests} />
       </div>
 
-      <DisplayForm
-        displayOptions={displayOptions}
-        user={user}
-        address={address}
-        opt={searchParams.opt}
-      />
+      <DisplayForm displayOptions={displayOptions} opt={searchParams.opt} />
     </div>
   );
 }

@@ -2,6 +2,9 @@ import { Suspense } from "react";
 import { BarangayClearanceForm } from "./barangay-clearance-form";
 import { ProfileType, AddressType } from "@/types";
 import { FormSkeleton } from "./form-skeleton";
+import { readUserSession } from "@/lib/supabase/read-session";
+import { redirect } from "next/navigation";
+import createSupabaseServerClient from "@/lib/supabase/server";
 
 type DisplayOptionsType = {
   id: number;
@@ -11,17 +14,37 @@ type DisplayOptionsType = {
   active: boolean;
 }[];
 
-export function DisplayForm({
+export async function DisplayForm({
   displayOptions,
-  user,
-  address,
   opt,
 }: {
   displayOptions: DisplayOptionsType;
-  user: ProfileType;
-  address: AddressType;
   opt?: string | null;
 }) {
+  const {
+    data: { session },
+  } = await readUserSession();
+
+  if (!session) return redirect("/account");
+
+  const supabase = await createSupabaseServerClient();
+
+  const { data: user, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", session?.user?.id)
+    .single();
+
+  if (error) return redirect("/account");
+
+  const { data: address } = await supabase
+    .from("address")
+    .select("*")
+    .eq("id", user.address_id!)
+    .single();
+
+  if (!user || !address) return <p>Something went wrong...</p>;
+
   return (
     displayOptions.length > 0 &&
     displayOptions.map((request) => {
