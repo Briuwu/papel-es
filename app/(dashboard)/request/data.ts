@@ -46,3 +46,16 @@ export const purposes = [
 ];
 
 export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
+
+export const VALID_ID_TYPES = [
+  "Postal ID",
+  "Passport",
+  "Driver's License",
+  "Voter's ID",
+  "Senior Citizen ID",
+  "PhilHealth Card",
+  "Philippine National ID",
+  "Company ID",
+  "Student ID",
+  "Birth Certificate",
+];
