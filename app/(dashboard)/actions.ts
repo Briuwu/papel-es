@@ -1,14 +1,10 @@
 "use server";
 import createSupabaseServerClient from "@/lib/supabase/server";
 import * as z from "zod";
-import { Tables } from "@/lib/supabase/database.types";
 import { formSchema } from "@/app/(dashboard)/components/continuation-form";
+import { AddressType } from "@/types";
 
 type FormSchema = z.infer<typeof formSchema>;
-
-type AddressType = Tables<"address">;
-
-type ProfileType = Tables<"profiles">;
 
 export async function handleContinuationForm(data: FormSchema) {
   const supabase = await createSupabaseServerClient();

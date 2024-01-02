@@ -3,14 +3,8 @@
 import * as z from "zod";
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { transformMiddleInitial } from "@/lib/utils";
-import { Tables } from "@/lib/supabase/database.types";
 import { revalidatePath, unstable_noStore as noStore } from "next/cache";
 import { formSchema } from "@/app/(dashboard)/profile/components/edit-form";
-
-export type AddressType = Tables<"address">;
-
-export type ProfileType = Tables<"profiles">;
-
 type EditFormType = z.infer<typeof formSchema>;
 
 export async function handleLogout() {

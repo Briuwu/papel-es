@@ -3,10 +3,10 @@ import { BarangayIDIcon } from "@/app/(dashboard)/request/images/BarangayIDIcon"
 import { IncidentReportIcon } from "@/app/(dashboard)/request/images/IncidentReportIcon";
 
 import { CardOptions } from "./components/card-options";
-import { BarangayClearanceForm } from "./components/barangay-clearance-form";
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { readUserSession } from "@/lib/supabase/read-session";
 import { redirect } from "next/navigation";
+import { DisplayForm } from "./components/display-forms";
 
 export default async function RequestPage({
   searchParams,
@@ -75,25 +75,11 @@ export default async function RequestPage({
         <CardOptions requests={requests} />
       </div>
 
-      {displayOptions.length > 0 &&
-        displayOptions.map((request) => {
-          switch (request.path) {
-            case "barangay-clearance":
-              return (
-                <BarangayClearanceForm
-                  user={user}
-                  address={address}
-                  key={request.path}
-                />
-              );
-            case "barangay-id":
-              return null;
-            case "incident-report":
-              return null;
-            default:
-              return null;
-          }
-        })}
+      <DisplayForm
+        displayOptions={displayOptions}
+        user={user}
+        address={address}
+      />
     </div>
   );
 }
