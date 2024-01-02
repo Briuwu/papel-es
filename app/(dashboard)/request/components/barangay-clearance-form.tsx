@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useTransition } from "react";
-import { purposes } from "../data";
+import { ACCEPTED_IMAGE_TYPES, purposes } from "../data";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,11 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  handleUpdateProfile,
-  ProfileType,
-  AddressType,
-} from "@/app/(dashboard)/profile/actions";
+import { ProfileType, AddressType } from "@/app/(dashboard)/profile/actions";
 import {
   Popover,
   PopoverContent,
@@ -87,6 +83,13 @@ export const formSchema = z.object({
     .refine((value) => {
       return purposes.some((purpose) => purpose.value === value);
     }),
+  upload_proof: z
+    .any()
+    .refine((files) => files?.length == 1, "Please upload a valid file.")
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
+      "Please upload a valid file. (Accepted file types: jpg, jpeg, png)"
+    ),
 });
 
 export function BarangayClearanceForm({
@@ -114,8 +117,11 @@ export function BarangayClearanceForm({
     },
   });
 
+  const fileRef = form.register("upload_proof", { required: true });
+
   function onSubmit(data: z.infer<typeof formSchema>) {
     toast.error("This feature is not yet available.");
+    console.log(data);
     // startTransition(async () => {
     //   const result = await handleUpdateProfile(data);
 
@@ -337,13 +343,31 @@ export function BarangayClearanceForm({
           />
         </div>
 
+        <FormField
+          control={form.control}
+          name="upload_proof"
+          render={({ field }) => (
+            <FormItem className="md:w-1/3">
+              <FormLabel>Please upload a proof of identification</FormLabel>
+              <FormControl>
+                <Input
+                  type="file"
+                  {...fileRef}
+                  accept="image/png, image/jpeg, image/jpg"
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <div className="space-y-4 mt-5">
           <Button
             type="submit"
-            className="block font-bold rounded ml-auto"
+            className="block font-bold rounded mr-auto"
             disabled={isPending}
           >
-            Update Profile
+            Review Request
           </Button>
         </div>
       </form>

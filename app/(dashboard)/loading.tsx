@@ -1,9 +1,6 @@
-import { LoaderIcon } from "lucide-react";
-import Image from "next/image";
-
 export default function Loading() {
   return (
-    <div className="flex flex-col items-center justify-center h-full py-2">
+    <div className="flex flex-col items-center justify-center py-2 mt-20">
       <div className="flex flex-col items-center justify-center">
         <div className="flex space-x-2 justify-center items-center bg-white dark:invert">
           <span className="sr-only">Loading...</span>
