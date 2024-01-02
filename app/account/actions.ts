@@ -2,7 +2,6 @@
 import createSupabaseServerClient from "@/lib/supabase/server";
 import * as z from "zod";
 import { formSchema } from "./components/register-form";
-import { toast } from "sonner";
 
 type FormSchemaType = z.infer<typeof formSchema>;
 
