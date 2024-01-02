@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useTransition } from "react";
-import { ACCEPTED_IMAGE_TYPES, purposes } from "../data";
+import { ACCEPTED_IMAGE_TYPES, VALID_ID_TYPES, purposes } from "../data";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -36,61 +36,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-export const formSchema = z.object({
-  firstName: z
-    .string()
-    .min(2, { message: "First name must be at least 2 characters" }),
-  lastName: z
-    .string()
-    .min(2, { message: "Last name must be at least 2 characters" }),
-  middleName: z.string().optional(),
-  phone: z
-    .string({
-      required_error: "A phone number is required.",
-    })
-    .refine((value) => validator.isMobilePhone(value), {
-      message: "Please enter a valid phone number",
-    }),
-  dob: z.date({
-    required_error: "A date of birth is required.",
-  }),
-  street: z.string({
-    required_error: "A street is required.",
-  }),
-  city: z
-    .string({
-      required_error: "A city is required.",
-    })
-    .min(3, "City must be at least 3 characters."),
-  subdivision: z.string({
-    required_error: "A subdivision is required.",
-  }),
-  province: z
-    .string({
-      required_error: "A province is required.",
-    })
-    .min(3, "Province must be at least 3 characters."),
-  barangay: z
-    .string({
-      required_error: "A barangay is required.",
-    })
-    .min(3, "Barangay must be at least 3 characters."),
-  purpose: z
-    .string({
-      required_error: "A purpose is required.",
-    })
-    .refine((value) => {
-      return purposes.some((purpose) => purpose.value === value);
-    }),
-  upload_proof: z
-    .any()
-    .refine((files) => files?.length == 1, "Please upload a valid file.")
-    .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
-      "Please upload a valid file. (Accepted file types: jpg, jpeg, png)"
-    ),
-});
+import { Hover } from "@/components/hover";
+import { formSchema } from "@/app/(dashboard)/request/action";
 
 export function BarangayClearanceForm({
   user,
@@ -349,6 +296,23 @@ export function BarangayClearanceForm({
           render={({ field }) => (
             <FormItem className="md:w-1/3">
               <FormLabel>Please upload a proof of identification</FormLabel>
+              <Hover
+                trigger={
+                  <Button
+                    variant={"link"}
+                    className="text-sm touch-none"
+                    type="button"
+                  >
+                    valid IDs
+                  </Button>
+                }
+              >
+                <ul className="list-disc px-3 space-y-1">
+                  {VALID_ID_TYPES.map((id) => (
+                    <li key={id}>{id}</li>
+                  ))}
+                </ul>
+              </Hover>
               <FormControl>
                 <Input
                   type="file"

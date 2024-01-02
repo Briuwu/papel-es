@@ -32,47 +32,7 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { useTransition } from "react";
-
-export const formSchema = z.object({
-  firstName: z
-    .string()
-    .min(2, { message: "First name must be at least 2 characters" }),
-  lastName: z
-    .string()
-    .min(2, { message: "Last name must be at least 2 characters" }),
-  middleName: z.string().optional(),
-  phone: z
-    .string({
-      required_error: "A phone number is required.",
-    })
-    .refine((value) => validator.isMobilePhone(value), {
-      message: "Please enter a valid phone number",
-    }),
-  dob: z.date({
-    required_error: "A date of birth is required.",
-  }),
-  street: z.string({
-    required_error: "A street is required.",
-  }),
-  city: z
-    .string({
-      required_error: "A city is required.",
-    })
-    .min(3, "City must be at least 3 characters."),
-  subdivision: z.string({
-    required_error: "A subdivision is required.",
-  }),
-  province: z
-    .string({
-      required_error: "A province is required.",
-    })
-    .min(3, "Province must be at least 3 characters."),
-  barangay: z
-    .string({
-      required_error: "A barangay is required.",
-    })
-    .min(3, "Barangay must be at least 3 characters."),
-});
+import { formSchema } from "@/app/(dashboard)/profile/actions";
 
 export function EditForm({
   user,

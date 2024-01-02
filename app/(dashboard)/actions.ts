@@ -1,8 +1,44 @@
 "use server";
 import createSupabaseServerClient from "@/lib/supabase/server";
-import { formSchema } from "@/app/(dashboard)/components/continuation-form";
 import * as z from "zod";
 import { Tables } from "@/lib/supabase/database.types";
+import validator from "validator";
+
+export const formSchema = z.object({
+  phone: z
+    .string({
+      required_error: "A phone number is required.",
+    })
+    .refine((value) => validator.isMobilePhone(value), {
+      message: "Please enter a valid phone number",
+    }),
+  dob: z.date({
+    required_error: "A date of birth is required.",
+  }),
+  street: z.string({
+    required_error: "A street is required.",
+  }),
+  city: z
+    .string({
+      required_error: "A city is required.",
+    })
+    .min(3, "City must be at least 3 characters."),
+  subdivision: z
+    .string({
+      required_error: "A subdivision is required.",
+    })
+    .min(3, "Subdivision must be at least 3 characters."),
+  province: z
+    .string({
+      required_error: "A province is required.",
+    })
+    .min(3, "Province must be at least 3 characters."),
+  barangay: z
+    .string({
+      required_error: "A barangay is required.",
+    })
+    .min(3, "Barangay must be at least 3 characters."),
+});
 
 type FormSchema = z.infer<typeof formSchema>;
 

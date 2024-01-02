@@ -7,8 +7,6 @@ import { BarangayClearanceForm } from "./components/barangay-clearance-form";
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { readUserSession } from "@/lib/supabase/read-session";
 import { redirect } from "next/navigation";
-import { Suspense } from "react";
-import { FormSkeleton } from "./components/form-skeleton";
 
 export default async function RequestPage({
   searchParams,
@@ -82,13 +80,11 @@ export default async function RequestPage({
           switch (request.path) {
             case "barangay-clearance":
               return (
-                <Suspense fallback={<FormSkeleton />}>
-                  <BarangayClearanceForm
-                    user={user}
-                    address={address}
-                    key={request.path}
-                  />
-                </Suspense>
+                <BarangayClearanceForm
+                  user={user}
+                  address={address}
+                  key={request.path}
+                />
               );
             case "barangay-id":
               return null;
