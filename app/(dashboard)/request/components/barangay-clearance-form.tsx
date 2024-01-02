@@ -115,18 +115,19 @@ export function BarangayClearanceForm({
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    startTransition(async () => {
-      const result = await handleUpdateProfile(data);
+    toast.error("This feature is not yet available.");
+    // startTransition(async () => {
+    //   const result = await handleUpdateProfile(data);
 
-      const { error } = JSON.parse(result);
+    //   const { error } = JSON.parse(result);
 
-      if (error) {
-        toast.error(error);
-      } else {
-        toast.success("Account successfully updated!");
-        router.push("/account");
-      }
-    });
+    //   if (error) {
+    //     toast.error(error);
+    //   } else {
+    //     toast.success("Account successfully updated!");
+    //     router.push("/account");
+    //   }
+    // });
   }
 
   return (
