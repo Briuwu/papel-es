@@ -9,7 +9,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { useTransition } from "react";
-import { ACCEPTED_IMAGE_TYPES, VALID_ID_TYPES, purposes } from "../data";
+import {
+  ACCEPTED_IMAGE_TYPES,
+  VALID_ID_TYPES,
+  purposes,
+} from "@/app/(dashboard)/request/data";
+import { ProfileType, AddressType } from "@/types";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -22,7 +27,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ProfileType, AddressType } from "@/app/(dashboard)/profile/actions";
 import {
   Popover,
   PopoverContent,
