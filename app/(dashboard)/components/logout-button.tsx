@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { handleLogout } from "../actions";
+import { handleLogout } from "../profile/actions";
 import { cn } from "@/lib/utils";
 
 export default function LogoutButton({ className }: { className?: string }) {

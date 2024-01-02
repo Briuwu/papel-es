@@ -31,7 +31,9 @@ export function Navbar() {
   return (
     <nav className="p-4 shadow">
       <div className="flex justify-between items-center container">
-        <h1>Logo</h1>
+        <Link href={"/"}>
+          <h1>Logo</h1>
+        </Link>
         <div className="block md:hidden">
           <MobileNavbar navLinks={navLinks} />
         </div>

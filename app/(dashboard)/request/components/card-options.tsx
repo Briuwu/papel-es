@@ -17,7 +17,7 @@ export function CardOptions({ requests }: { requests: CardOptionsProps[] }) {
         <Card
           className={cn(
             "flex flex-col items-center justify-between relative z-10",
-            request.active && "bg-gray-100 outline outline-black"
+            request.active && "bg-gray-100 outline outline-blue-400"
           )}
           key={request.id}
         >
