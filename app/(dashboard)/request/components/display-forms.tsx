@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import { BarangayClearanceForm } from "./barangay-clearance-form";
 import { ProfileType, AddressType } from "@/types";
+import { FormSkeleton } from "./form-skeleton";
 
 type DisplayOptionsType = {
   id: number;
@@ -13,10 +15,12 @@ export function DisplayForm({
   displayOptions,
   user,
   address,
+  opt,
 }: {
   displayOptions: DisplayOptionsType;
   user: ProfileType;
   address: AddressType;
+  opt?: string | null;
 }) {
   return (
     displayOptions.length > 0 &&
@@ -24,11 +28,13 @@ export function DisplayForm({
       switch (request.path) {
         case "barangay-clearance":
           return (
-            <BarangayClearanceForm
-              user={user}
-              address={address}
-              key={request.path}
-            />
+            <Suspense key={opt} fallback={<FormSkeleton />}>
+              <BarangayClearanceForm
+                user={user}
+                address={address}
+                key={request.path}
+              />
+            </Suspense>
           );
         case "barangay-id":
           return null;

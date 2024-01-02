@@ -79,6 +79,7 @@ export default async function RequestPage({
         displayOptions={displayOptions}
         user={user}
         address={address}
+        opt={searchParams.opt}
       />
     </div>
   );

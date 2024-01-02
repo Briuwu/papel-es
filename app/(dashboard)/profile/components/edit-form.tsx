@@ -18,11 +18,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  handleUpdateProfile,
-  ProfileType,
-  AddressType,
-} from "@/app/(dashboard)/profile/actions";
+import { handleUpdateProfile } from "@/app/(dashboard)/profile/actions";
 import {
   Popover,
   PopoverContent,
@@ -32,6 +28,7 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { useTransition } from "react";
+import { ProfileType, AddressType } from "@/types";
 
 export const formSchema = z.object({
   firstName: z
