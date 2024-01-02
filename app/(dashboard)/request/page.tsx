@@ -2,13 +2,43 @@ import { BarangayClearanceIcon } from "@/app/(dashboard)/request/images/Barangay
 import { BarangayIDIcon } from "@/app/(dashboard)/request/images/BarangayIDIcon";
 import { IncidentReportIcon } from "@/app/(dashboard)/request/images/IncidentReportIcon";
 
-import { CardOptions } from "./components/CardOptions";
+import { CardOptions } from "./components/card-options";
+import { BarangayClearanceForm } from "./components/barangay-clearance-form";
+import createSupabaseServerClient from "@/lib/supabase/server";
+import { readUserSession } from "@/lib/supabase/read-session";
+import { redirect } from "next/navigation";
 
-export default function RequestPage({
+export default async function RequestPage({
   searchParams,
 }: {
   searchParams: { opt?: string };
 }) {
+  const {
+    data: { session },
+  } = await readUserSession();
+
+  if (!session) return redirect("/account");
+
+  const supabase = await createSupabaseServerClient();
+
+  if (!session) return redirect("/account");
+
+  const { data: user, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", session?.user?.id)
+    .single();
+
+  if (!user) return null;
+
+  const { data: address } = await supabase
+    .from("address")
+    .select("*")
+    .eq("id", user.address_id!)
+    .single();
+
+  if (!address) return null;
+
   const requests = [
     {
       id: 1,
@@ -33,11 +63,37 @@ export default function RequestPage({
     },
   ];
 
+  const displayOptions = requests.filter((request) => request.active);
+
   return (
-    <div>
+    <div className="space-y-10">
+      <h1 className="text-lg font-bold md:text-3xl uppercase sm:text-xl">
+        I am requesting for
+        {displayOptions.length > 0 ? " " + displayOptions[0].name : "..."}
+      </h1>
       <div className="grid md:grid-cols-3 gap-5 sm:grid-cols-2 grid-cols-1">
         <CardOptions requests={requests} />
       </div>
+
+      {displayOptions.length > 0 &&
+        displayOptions.map((request) => {
+          switch (request.path) {
+            case "barangay-clearance":
+              return (
+                <BarangayClearanceForm
+                  user={user}
+                  address={address}
+                  key={request.path}
+                />
+              );
+            case "barangay-id":
+              return null;
+            case "incident-report":
+              return null;
+            default:
+              return null;
+          }
+        })}
     </div>
   );
 }

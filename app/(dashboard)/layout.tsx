@@ -1,4 +1,4 @@
-import { Navbar } from "@/app/(dashboard)/profile/components/navbar";
+import { Navbar } from "@/app/(dashboard)/components/navbar";
 import { readUserSession } from "@/lib/supabase/read-session";
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
