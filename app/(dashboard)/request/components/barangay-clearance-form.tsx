@@ -8,7 +8,7 @@ import validator from "validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import {
   ACCEPTED_IMAGE_TYPES,
   VALID_ID_TYPES,
@@ -43,6 +43,7 @@ import {
 import { Hover } from "@/components/hover";
 import Link from "next/link";
 import { handleClearanceForm } from "../action";
+import createSupabaseBrowserClient from "@/lib/supabase/client";
 
 export const formSchema = z.object({
   firstName: z
@@ -95,7 +96,7 @@ export const formSchema = z.object({
     .refine((files) => files?.length == 1, "Please upload a valid file.")
     .refine(
       (files) => ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
-      "Please upload a valid file. (Accepted file types: jpg, jpeg, png)"
+      "Please upload a valid file. (Accepted file types: jpg, jpeg, png)",
     ),
 });
 
@@ -106,8 +107,11 @@ export function BarangayClearanceForm({
   user: ProfileType;
   address: AddressType;
 }) {
+  const supabase = createSupabaseBrowserClient();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [userId, setUserId] = useState("");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -124,24 +128,56 @@ export function BarangayClearanceForm({
     },
   });
 
-  const fileRef = form.register("upload_proof", { required: true });
+  const getUser = async () => {
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user) {
+        setUserId(user.id);
+      } else {
+        setUserId("");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, [userId]);
+
+  async function uploadFile(file: File) {
+    const filePath = `${userId}/${file.name}`;
+    const { error } = await supabase.storage
+      .from("proofs")
+      .upload(filePath, file);
+
+    if (error) {
+      throw new Error("Error uploading file");
+    }
+  }
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    toast.error("This feature is not yet available.");
-    console.log(data);
-    // startTransition(async () => {
-    //   const result = await handleUpdateProfile(data);
+    startTransition(async () => {
+      const file = data.upload_proof[0];
+      if (file) {
+        await uploadFile(file);
+      }
+      const result = await handleClearanceForm({ purpose: data.purpose });
 
-    //   const { error } = JSON.parse(result);
+      const { error } = JSON.parse(result);
 
-    //   if (error) {
-    //     toast.error(error);
-    //   } else {
-    //     toast.success("Account successfully updated!");
-    //     router.push("/account");
-    //   }
-    // });
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success("Request submitted successfully.");
+        router.push(`/profile`);
+      }
+    });
   }
+
+  const fileRef = form.register("upload_proof", { required: true });
 
   return (
     <Form {...form}>
@@ -150,7 +186,7 @@ export function BarangayClearanceForm({
         of the barangay.
       </p>
       <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-5">
-        <p className="text-lg sm:text-xl font-bold md:text-2xl uppercase">
+        <p className="text-lg font-bold uppercase sm:text-xl md:text-2xl">
           Please fill up the following form:
         </p>
         <FormField
@@ -185,7 +221,7 @@ export function BarangayClearanceForm({
             </FormItem>
           )}
         />
-        <div className="grid gap-5 grid-cols-1 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <p className="font-bold md:col-span-2">Personal Information</p>
           <FormField
             control={form.control}
@@ -282,7 +318,7 @@ export function BarangayClearanceForm({
           />
         </div>
 
-        <div className="grid gap-5 grid-cols-1 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <p className="font-bold md:col-span-2">Address Information</p>
           <FormField
             control={form.control}
@@ -356,7 +392,7 @@ export function BarangayClearanceForm({
           <p className="col-span-2 text-sm italic text-orange-700">
             <span className="font-semibold">Note:</span> In order to change the
             data above, please go to your{" "}
-            <Link href={"/profile"} className="underline font-bold text-black">
+            <Link href={"/profile"} className="font-bold text-black underline">
               Profile
             </Link>
           </p>
@@ -372,14 +408,14 @@ export function BarangayClearanceForm({
                 trigger={
                   <Button
                     variant={"link"}
-                    className="text-sm touch-none"
+                    className="touch-none text-sm"
                     type="button"
                   >
                     valid IDs
                   </Button>
                 }
               >
-                <ul className="list-disc px-3 space-y-1">
+                <ul className="list-disc space-y-1 px-3">
                   {VALID_ID_TYPES.map((id) => (
                     <li key={id}>{id}</li>
                   ))}
@@ -398,10 +434,15 @@ export function BarangayClearanceForm({
           )}
         />
 
-        <div className="space-y-4 mt-5">
+        <div className="mt-5 space-y-4">
+          {Object.keys(form.formState.errors).length > 0 && (
+            <p className="text-sm text-red-500">
+              Please fix the errors above before submitting the form.
+            </p>
+          )}
           <Button
             type="submit"
-            className="block font-bold rounded mr-auto"
+            className="mr-auto block rounded font-bold"
             disabled={isPending}
           >
             Review Request
