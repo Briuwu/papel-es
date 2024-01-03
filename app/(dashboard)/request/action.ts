@@ -41,3 +41,15 @@ export async function handleClearanceForm(data: { purpose: string }) {
 
   return JSON.stringify({ success: true });
 }
+
+export async function handleIDForm() {
+  const supabase = await createSupabaseServerClient();
+
+  const {
+    data: { session },
+  } = await readUserSession();
+
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
+}
