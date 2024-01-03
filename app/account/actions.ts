@@ -1,13 +1,8 @@
 "use server";
 import createSupabaseServerClient from "@/lib/supabase/server";
-import * as z from "zod";
-import { formSchema } from "./components/register-form";
+import { LoginDataType, RegisterDataType } from "@/types";
 
-type FormSchemaType = z.infer<typeof formSchema>;
-
-type RegisterData = Omit<FormSchemaType, "confirmPassword">;
-
-export async function handleRegister(data: RegisterData) {
+export async function handleRegister(data: RegisterDataType) {
   const supabase = await createSupabaseServerClient();
 
   const { data: result, error } = await supabase.auth.signUp({
@@ -30,9 +25,7 @@ export async function handleRegister(data: RegisterData) {
   return JSON.stringify(result);
 }
 
-type LoginData = Pick<FormSchemaType, "email" | "password">;
-
-export async function handleLogin(data: LoginData) {
+export async function handleLogin(data: LoginDataType) {
   const supabase = await createSupabaseServerClient();
 
   const { data: result, error } = await supabase.auth.signInWithPassword({

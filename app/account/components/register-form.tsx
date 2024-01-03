@@ -19,7 +19,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { handleRegister } from "@/app/account/actions";
 import { useTransition } from "react";
 
-export const formSchema = z
+const formSchema = z
   .object({
     email: z.string().email({ message: "Please enter a valid email" }),
     password: z
@@ -43,19 +43,12 @@ export const formSchema = z
       });
     }
   });
+
 export function RegisterForm() {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-      firstName: "",
-      lastName: "",
-      middleName: "",
-      confirmPassword: "",
-    },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {

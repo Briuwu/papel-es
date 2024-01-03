@@ -4,8 +4,7 @@ import * as z from "zod";
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { transformMiddleInitial } from "@/lib/utils";
 import { revalidatePath, unstable_noStore as noStore } from "next/cache";
-import { formSchema } from "@/app/(dashboard)/profile/components/edit-form";
-type EditFormType = z.infer<typeof formSchema>;
+import { EditFormType } from "@/types";
 
 export async function handleLogout() {
   const supabase = await createSupabaseServerClient();
@@ -43,7 +42,7 @@ export async function getUserProfile() {
   }
 
   const fullName = `${data?.first_name} ${transformMiddleInitial(
-    data?.middle_name
+    data?.middle_name,
   )} ${data?.last_name}`;
 
   return JSON.stringify({

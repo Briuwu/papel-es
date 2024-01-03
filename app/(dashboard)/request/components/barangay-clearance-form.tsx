@@ -15,6 +15,10 @@ import {
   purposes,
 } from "@/app/(dashboard)/request/data";
 import { ProfileType, AddressType } from "@/types";
+import Link from "next/link";
+import { handleClearanceForm } from "../action";
+import createSupabaseBrowserClient from "@/lib/supabase/client";
+import { uploadFile } from "../upload-file";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -41,11 +45,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Hover } from "@/components/hover";
-import Link from "next/link";
-import { handleClearanceForm } from "../action";
-import createSupabaseBrowserClient from "@/lib/supabase/client";
 
-export const formSchema = z.object({
+const formSchema = z.object({
   firstName: z
     .string()
     .min(2, { message: "First name must be at least 2 characters" }),
@@ -128,41 +129,29 @@ export function BarangayClearanceForm({
     },
   });
 
-  const getUser = async () => {
-    try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (user) {
-        setUserId(user.id);
-      } else {
-        setUserId("");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    const getUser = async () => {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (user) {
+          setUserId(user.id);
+        } else {
+          setUserId("");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
     getUser();
   }, [userId]);
-
-  async function uploadFile(file: File) {
-    const filePath = `${userId}/${file.name}`;
-    const { error } = await supabase.storage
-      .from("proofs")
-      .upload(filePath, file);
-
-    if (error) {
-      throw new Error("Error uploading file");
-    }
-  }
 
   function onSubmit(data: z.infer<typeof formSchema>) {
     startTransition(async () => {
       const file = data.upload_proof[0];
       if (file) {
-        await uploadFile(file);
+        await uploadFile(file, userId);
       }
       const result = await handleClearanceForm({ purpose: data.purpose });
 

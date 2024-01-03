@@ -30,7 +30,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { useTransition } from "react";
 import { ProfileType, AddressType } from "@/types";
 
-export const formSchema = z.object({
+const formSchema = z.object({
   firstName: z
     .string()
     .min(2, { message: "First name must be at least 2 characters" }),

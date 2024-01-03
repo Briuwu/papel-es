@@ -29,7 +29,7 @@ import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { useTransition } from "react";
 
-export const formSchema = z.object({
+const formSchema = z.object({
   phone: z
     .string({
       required_error: "A phone number is required.",
