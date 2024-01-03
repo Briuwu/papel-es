@@ -10,9 +10,9 @@ export default async function SuccessPage() {
 
   if (!session) {
     return (
-      <main className="min-h-screen flex items-center justify-center flex-col text-center space-y-5">
-        <ShieldCheck className="w-32 h-32 text-green-500" />
-        <h1 className="md:text-3xl font-bold">
+      <main className="flex min-h-screen flex-col items-center justify-center space-y-5 text-center">
+        <ShieldCheck className="h-32 w-32 text-green-500" />
+        <h1 className="font-bold md:text-3xl">
           Your account has been created! <br /> Please check your email to
           verify your account.
         </h1>

@@ -41,6 +41,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Hover } from "@/components/hover";
+import Link from "next/link";
+import { handleClearanceForm } from "../action";
 
 export const formSchema = z.object({
   firstName: z
@@ -192,11 +194,7 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="First Name"
-                    {...field}
-                    disabled={isPending}
-                  />
+                  <Input placeholder="First Name" {...field} disabled />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -209,11 +207,7 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>Middle Name (optional)</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Middle Name"
-                    {...field}
-                    disabled={isPending}
-                  />
+                  <Input placeholder="Middle Name" {...field} disabled />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -226,11 +220,7 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>Last Name</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Last Name"
-                    {...field}
-                    disabled={isPending}
-                  />
+                  <Input placeholder="Last Name" {...field} disabled />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -243,11 +233,7 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>Phone Number</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="09123456789"
-                    {...field}
-                    disabled={isPending}
-                  />
+                  <Input placeholder="09123456789" {...field} disabled />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -260,7 +246,7 @@ export function BarangayClearanceForm({
               <FormItem className="flex flex-col">
                 <FormLabel>Date of birth</FormLabel>
                 <Popover>
-                  <PopoverTrigger asChild disabled={isPending}>
+                  <PopoverTrigger asChild disabled>
                     <FormControl>
                       <Button variant={"outline"}>
                         {field.value ? (
@@ -308,7 +294,7 @@ export function BarangayClearanceForm({
                   <Input
                     placeholder="Blk 99 Lot 99 Phase 0A Alley 99"
                     {...field}
-                    disabled={isPending}
+                    disabled
                   />
                 </FormControl>
                 <FormMessage />
@@ -322,11 +308,7 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>Subdivision</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Grand Riverside"
-                    {...field}
-                    disabled={isPending}
-                  />
+                  <Input placeholder="Grand Riverside" {...field} disabled />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -339,11 +321,7 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>Barangay</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Pasong Camachile 1"
-                    {...field}
-                    disabled={isPending}
-                  />
+                  <Input placeholder="Pasong Camachile 1" {...field} disabled />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -356,11 +334,7 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>City</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="General Trias"
-                    {...field}
-                    disabled={isPending}
-                  />
+                  <Input placeholder="General Trias" {...field} disabled />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -373,12 +347,19 @@ export function BarangayClearanceForm({
               <FormItem>
                 <FormLabel>Province</FormLabel>
                 <FormControl>
-                  <Input placeholder="Cavite" {...field} disabled={isPending} />
+                  <Input placeholder="Cavite" {...field} disabled />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+          <p className="col-span-2 text-sm italic text-orange-700">
+            <span className="font-semibold">Note:</span> In order to change the
+            data above, please go to your{" "}
+            <Link href={"/profile"} className="underline font-bold text-black">
+              Profile
+            </Link>
+          </p>
         </div>
 
         <FormField

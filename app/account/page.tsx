@@ -10,13 +10,13 @@ export default async function LoginPage() {
   }
 
   return (
-    <main className="bg-blue-500 p-5 grid min-h-screen">
-      <div className="bg-white md:w-[680px] rounded-xl w-full mx-auto p-10 flex flex-col gap-10">
+    <main className="grid min-h-screen bg-blue-500 p-5">
+      <div className="mx-auto flex w-full flex-col gap-10 rounded-xl bg-white p-10 md:w-[680px]">
         <div className="space-y-2 text-center">
-          <h1 className="md:text-5xl sm:text-4xl text-2xl font-bold text-blue-500">
+          <h1 className="text-2xl font-bold text-blue-500 sm:text-4xl md:text-5xl">
             PAPEL-ES
           </h1>
-          <p className="md:text-5xl sm:text-4xl text-2xl font-semibold">
+          <p className="text-2xl font-semibold sm:text-4xl md:text-5xl">
             Welcome Back!
           </p>
         </div>

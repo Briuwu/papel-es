@@ -6,12 +6,12 @@ export async function User() {
   const { fullName, email } = JSON.parse(res);
 
   return (
-    <div className="flex flex-col md:flex-row md:items-center gap-5">
-      <div className="w-fit border-2 border-black rounded-full p-4">
-        <UserIcon className="md:w-28 md:h-28 w-10 h-10" />
+    <div className="flex flex-col gap-5 md:flex-row md:items-center">
+      <div className="w-fit rounded-full border-2 border-black p-4">
+        <UserIcon className="h-10 w-10 md:h-28 md:w-28" />
       </div>
       <div>
-        <h1 className="md:text-3xl font-bold text-xl">{fullName}</h1>
+        <h1 className="text-xl font-bold md:text-3xl">{fullName}</h1>
         <p className="text-sm md:text-base">{email}</p>
       </div>
     </div>

@@ -114,7 +114,7 @@ export function EditForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-5">
-        <div className="grid gap-5 grid-cols-1 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <p className="font-bold md:col-span-2">Personal Information</p>
           <FormField
             control={form.control}
@@ -227,7 +227,7 @@ export function EditForm({
           />
         </div>
 
-        <div className="grid gap-5 grid-cols-1 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
           <p className="font-bold md:col-span-2">Address Information</p>
           <FormField
             control={form.control}
@@ -312,10 +312,10 @@ export function EditForm({
           />
         </div>
 
-        <div className="space-y-4 mt-5">
+        <div className="mt-5 space-y-4">
           <Button
             type="submit"
-            className="block font-bold rounded ml-auto"
+            className="ml-auto block rounded font-bold"
             disabled={isPending}
           >
             Update Profile

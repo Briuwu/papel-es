@@ -6,10 +6,10 @@ export function CreationTabs() {
   return (
     <Tabs defaultValue="login" className="mx-auto">
       <TabsList className="flex items-center">
-        <TabsTrigger value="login" className="md:w-52 sm:w-40">
+        <TabsTrigger value="login" className="sm:w-40 md:w-52">
           Login
         </TabsTrigger>
-        <TabsTrigger value="register" className="md:w-52 sm:w-40">
+        <TabsTrigger value="register" className="sm:w-40 md:w-52">
           Register
         </TabsTrigger>
       </TabsList>

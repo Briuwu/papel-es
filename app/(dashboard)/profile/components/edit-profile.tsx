@@ -43,7 +43,7 @@ export async function EditProfile() {
       <Sheet>
         <SheetTrigger asChild>
           <Button
-            className="font-bold items-center gap-2"
+            className="items-center gap-2 font-bold"
             variant={"outline"}
             size={"lg"}
           >
@@ -51,7 +51,7 @@ export async function EditProfile() {
             <span>Edit Profile</span>
           </Button>
         </SheetTrigger>
-        <SheetContent className="space-y-3 max-w-[500px] sm:max-w-[700px] overflow-auto">
+        <SheetContent className="max-w-[500px] space-y-3 overflow-auto sm:max-w-[700px]">
           <SheetHeader>
             <SheetTitle>Editing Profile</SheetTitle>
             <SheetDescription>

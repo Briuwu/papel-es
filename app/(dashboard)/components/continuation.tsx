@@ -21,7 +21,7 @@ export default function Continuation() {
     <div>
       <AlertDialog defaultOpen>
         <AlertDialogContent
-          className={"overflow-y-auto max-h-screen md:max-w-screen-md"}
+          className={"max-h-screen overflow-y-auto md:max-w-screen-md"}
         >
           <AlertDialogHeader>
             <AlertDialogTitle>Complete your registration</AlertDialogTitle>

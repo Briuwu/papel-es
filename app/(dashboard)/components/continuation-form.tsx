@@ -98,7 +98,7 @@ export function ContinuationForm() {
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid gap-3 text-left"
       >
-        <p className="md:text-xl font-bold">Personal Information</p>
+        <p className="font-bold md:text-xl">Personal Information</p>
         <FormField
           control={form.control}
           name="phone"
@@ -157,8 +157,8 @@ export function ContinuationForm() {
             </FormItem>
           )}
         />
-        <p className="md:text-xl font-bold">Address Information</p>
-        <div className="grid md:grid-cols-2 gap-2">
+        <p className="font-bold md:text-xl">Address Information</p>
+        <div className="grid gap-2 md:grid-cols-2">
           <FormField
             control={form.control}
             name="street"
@@ -241,10 +241,10 @@ export function ContinuationForm() {
             )}
           />
         </div>
-        <div className="space-y-4 mt-5">
+        <div className="mt-5 space-y-4">
           <Button
             type="submit"
-            className="block font-bold rounded-full"
+            className="block rounded-full font-bold"
             disabled={isPending}
           >
             Continue

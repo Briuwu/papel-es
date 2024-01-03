@@ -30,21 +30,21 @@ export function Navbar() {
   ];
   return (
     <nav className="p-4 shadow">
-      <div className="flex justify-between items-center container">
+      <div className="container flex items-center justify-between">
         <Link href={"/"}>
           <h1>Logo</h1>
         </Link>
         <div className="block md:hidden">
           <MobileNavbar navLinks={navLinks} />
         </div>
-        <ul className="space-x-5 hidden md:block">
+        <ul className="hidden space-x-5 md:block">
           {navLinks.map(({ name, path, active }) => (
             <li key={name} className="inline-block">
               <Link
                 href={path}
                 className={cn(
                   "font-semibold hover:text-blue-400",
-                  active && "font-bold text-blue-500"
+                  active && "font-bold text-blue-500",
                 )}
               >
                 {name}
@@ -81,8 +81,8 @@ const MobileNavbar = ({ navLinks }: { navLinks: NavLinksType }) => {
               href={path}
               key={name}
               className={cn(
-                "p-2 rounded-md hover:bg-gray-100",
-                active && "bg-gray-100"
+                "rounded-md p-2 hover:bg-gray-100",
+                active && "bg-gray-100",
               )}
             >
               {name}

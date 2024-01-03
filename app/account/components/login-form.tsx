@@ -88,10 +88,10 @@ export function LoginForm() {
             </FormItem>
           )}
         />
-        <div className="space-y-4 mt-5">
+        <div className="mt-5 space-y-4">
           <Button
             type="submit"
-            className="w-full block font-bold rounded-full"
+            className="block w-full rounded-full font-bold"
             disabled={isPending}
           >
             Log In
