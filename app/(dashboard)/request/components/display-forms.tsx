@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import { BarangayClearanceForm } from "./barangay-clearance-form";
-import { ProfileType, AddressType } from "@/types";
 import { FormSkeleton } from "./form-skeleton";
 import { readUserSession } from "@/lib/supabase/read-session";
 import { redirect } from "next/navigation";

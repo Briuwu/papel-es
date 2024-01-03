@@ -24,10 +24,14 @@ export async function getUserProfile() {
     data: { session },
   } = await supabase.auth.getSession();
 
+  if (!session) {
+    throw new Error("User not found");
+  }
+
   const { data, error } = await supabase
     .from("profiles")
     .select("*")
-    .eq("id", session?.user.id || "")
+    .eq("id", session?.user.id)
     .single();
 
   if (error) {
