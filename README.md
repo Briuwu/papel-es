@@ -15,11 +15,11 @@ Papel-es is an online platform enabling residents to request and process documen
 
 ## Tech Stack
 
-- [Next.js](https://nextjs.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Shadcn](https://ui.shadcn.com/)
-- [Supabase](https://supabase.com/)
+- [Next.js](https://nextjs.org/) - a React framework for production, server-side rendering, and static site generation.
+- [Tailwind CSS](https://tailwindcss.com/) - a utility-first CSS framework for rapid UI development.
+- [TypeScript](https://www.typescriptlang.org/) - a typed superset of JavaScript that compiles to plain JavaScript.
+- [Shadcn](https://ui.shadcn.com/) - a collection of beautifully designed components that you can copy and paste into your apps.
+- [Supabase](https://supabase.com/) - an open-source Firebase alternative.
 
 ## Getting Started
 
