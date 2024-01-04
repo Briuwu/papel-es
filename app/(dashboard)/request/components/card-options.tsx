@@ -1,6 +1,10 @@
+"use client";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 type CardOptionsProps = {
   id: number;
@@ -11,13 +15,22 @@ type CardOptionsProps = {
 };
 
 export function CardOptions({ requests }: { requests: CardOptionsProps[] }) {
+  const [isPending, startTransition] = useTransition();
+  const router = useRouter();
+
+  const onSwitchTab = (path: string) => {
+    startTransition(() => {
+      router.push(`/request?opt=${path}`);
+    });
+  };
   return (
     <>
       {requests.map((request) => (
         <Card
           className={cn(
-            "flex flex-col items-center justify-between relative z-10",
-            request.active && "bg-gray-100 outline outline-blue-400"
+            "relative z-10 flex flex-col items-center justify-between",
+            request.active && "bg-gray-100 outline outline-blue-400",
+            isPending && "pointer-events-none opacity-50",
           )}
           key={request.id}
         >
@@ -25,9 +38,13 @@ export function CardOptions({ requests }: { requests: CardOptionsProps[] }) {
             <CardTitle>{request.name}</CardTitle>
           </CardHeader>
           <CardContent>{request.icon}</CardContent>
-          <Link href={`?opt=${request.path}`} className="absolute inset-0 z-0">
+          <button
+            type="button"
+            className="absolute inset-0"
+            onClick={() => onSwitchTab(request.path)}
+          >
             <span className="sr-only">{request.name}</span>
-          </Link>
+          </button>
         </Card>
       ))}
     </>
