@@ -4,14 +4,14 @@ Papel-es is an online platform enabling residents to request and process documen
 
 ## Features
 
-[] Login
-[] Register
-[] Request Documents
-[] View Documents
-[] View Requests
-[] View Profile
-[] Edit Profile
-[] Logout
+- [x] Login
+- [x] Register
+- [x] Request Documents
+- [x] View Documents
+- [x] View Requests
+- [x] View Profile
+- [x] Edit Profile
+- [x] Logout
 
 ## Tech Stack
 
