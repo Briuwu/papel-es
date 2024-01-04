@@ -1,4 +1,25 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Welcome to [papel-es](https://papel-es.vercel.app/)
+
+Papel-es is an online platform enabling residents to request and process documents like barangay clearance, business permits, and residency certificates. It's designed for convenience, speed, and security, eliminating the need for in-person visits to the barangay hall.
+
+## Features
+
+[] Login
+[] Register
+[] Request Documents
+[] View Documents
+[] View Requests
+[] View Profile
+[] Edit Profile
+[] Logout
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Shadcn](https://ui.shadcn.com/)
+- [Supabase](https://supabase.com/)
 
 ## Getting Started
 
