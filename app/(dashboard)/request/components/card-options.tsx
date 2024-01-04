@@ -1,8 +1,6 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTransition } from "react";
 
@@ -23,6 +21,7 @@ export function CardOptions({ requests }: { requests: CardOptionsProps[] }) {
       router.push(`/request?opt=${path}`);
     });
   };
+
   return (
     <>
       {requests.map((request) => (
@@ -42,6 +41,7 @@ export function CardOptions({ requests }: { requests: CardOptionsProps[] }) {
             type="button"
             className="absolute inset-0"
             onClick={() => onSwitchTab(request.path)}
+            disabled={isPending}
           >
             <span className="sr-only">{request.name}</span>
           </button>
