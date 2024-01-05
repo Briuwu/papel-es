@@ -18,7 +18,7 @@ export function CardOptions({ requests }: { requests: CardOptionsProps[] }) {
 
   const onSwitchTab = (path: string) => {
     startTransition(() => {
-      router.push(`/request?opt=${path}`);
+      router.push(`/request?opt=${path}#form`);
     });
   };
 

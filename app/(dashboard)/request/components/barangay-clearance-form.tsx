@@ -116,7 +116,11 @@ export function BarangayClearanceForm({
         This document proves that you are of good moral character and a resident
         of the barangay.
       </p>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-5">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid gap-5"
+        id="form"
+      >
         <p className="text-lg font-bold uppercase sm:text-xl md:text-2xl">
           Please fill up the following form:
         </p>

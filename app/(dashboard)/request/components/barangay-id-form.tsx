@@ -163,7 +163,11 @@ export function BarangayIdForm({
         This ID is an official recognized government-issued, it is a proof that
         you live in this barangay. This ID is valid for 1 year.
       </p>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-10">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grid gap-10"
+        id="form"
+      >
         <p className="text-lg font-bold uppercase sm:text-xl md:text-2xl">
           Please fill up the following form:
         </p>
