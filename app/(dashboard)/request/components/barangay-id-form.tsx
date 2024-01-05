@@ -272,10 +272,8 @@ export function BarangayIdForm({
           </Link>
         </p>
 
+        <p className="font-bold">In case of emergency contact information:</p>
         <div className="grid gap-5 md:grid-cols-2">
-          <p className="col-span-2 font-bold">
-            In case of emergency contact information:
-          </p>
           <div className="space-y-5">
             <FormField
               control={form.control}
@@ -342,6 +340,29 @@ export function BarangayIdForm({
                     />
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isSameAddress"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={(value) => {
+                        setIsSameAddress(!isSameAddress);
+                        field.onChange(value);
+                      }}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>
+                      Same as my current address (Please double check your
+                      address information)
+                    </FormLabel>
+                  </div>
                 </FormItem>
               )}
             />
@@ -434,29 +455,6 @@ export function BarangayIdForm({
                     />
                   </FormControl>
                   <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="isSameAddress"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={(value) => {
-                        setIsSameAddress(!isSameAddress);
-                        field.onChange(value);
-                      }}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>
-                      Same as my current address (Please double check your
-                      address information)
-                    </FormLabel>
-                  </div>
                 </FormItem>
               )}
             />
