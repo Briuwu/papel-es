@@ -1,9 +1,7 @@
 "use server";
 
-import * as z from "zod";
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { transformMiddleInitial } from "@/lib/utils";
-import { revalidatePath, unstable_noStore as noStore } from "next/cache";
 import { EditFormType } from "@/types";
 
 export async function handleLogout() {
@@ -53,7 +51,6 @@ export async function getUserProfile() {
 }
 
 export async function handleUpdateProfile(data: EditFormType) {
-  noStore();
   const supabase = await createSupabaseServerClient();
 
   const {
@@ -94,6 +91,5 @@ export async function handleUpdateProfile(data: EditFormType) {
     return JSON.stringify({ error: addressError.message });
   }
 
-  revalidatePath("/profile");
   return JSON.stringify({ success: true });
 }

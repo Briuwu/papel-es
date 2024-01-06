@@ -2,7 +2,6 @@
 
 import { readUserSession } from "@/lib/supabase/read-session";
 import createSupabaseServerClient from "@/lib/supabase/server";
-import * as z from "zod";
 
 export async function handleClearanceForm(data: { purpose: string }) {
   const supabase = await createSupabaseServerClient();
