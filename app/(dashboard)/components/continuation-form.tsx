@@ -143,7 +143,6 @@ export function ContinuationForm() {
                     disabled={(date) =>
                       date > new Date() || date < new Date("1900-01-01")
                     }
-                    initialFocus
                     fromYear={1950}
                     toYear={new Date().getFullYear() - 18}
                     captionLayout="dropdown"
