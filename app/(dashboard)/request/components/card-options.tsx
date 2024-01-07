@@ -39,7 +39,7 @@ export function CardOptions({ requests }: { requests: CardOptionsProps[] }) {
           <CardContent>{request.icon}</CardContent>
           <button
             type="button"
-            className="absolute inset-0"
+            className="absolute inset-0 z-10"
             onClick={() => onSwitchTab(request.path)}
             disabled={isPending}
           >
