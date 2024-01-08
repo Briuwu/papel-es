@@ -1,8 +1,8 @@
 "use client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
 import { useTransition } from "react";
+import Link from "next/link";
 
 type CardOptionsProps = {
   id: number;
@@ -14,13 +14,6 @@ type CardOptionsProps = {
 
 export function CardOptions({ requests }: { requests: CardOptionsProps[] }) {
   const [isPending, startTransition] = useTransition();
-  const router = useRouter();
-
-  const onSwitchTab = (path: string) => {
-    startTransition(() => {
-      router.push(`/request?opt=${path}#form`);
-    });
-  };
 
   return (
     <>
@@ -37,14 +30,14 @@ export function CardOptions({ requests }: { requests: CardOptionsProps[] }) {
             <CardTitle>{request.name}</CardTitle>
           </CardHeader>
           <CardContent>{request.icon}</CardContent>
-          <button
+          <Link
             type="button"
             className="absolute inset-0 z-20"
-            onClick={() => onSwitchTab(request.path)}
+            href={`?opt=${request.path}`}
             disabled={isPending}
           >
             <span className="sr-only">{request.name}</span>
-          </button>
+          </Link>
         </Card>
       ))}
     </>
