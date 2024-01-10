@@ -18,7 +18,7 @@ export function CardOptions({ requests }: { requests: CardOptionsProps[] }) {
 
   const handleClick = (path: string) => {
     startTransition(() => {
-      router.push(`request?opt=${path}`);
+      router.push(`request?opt=${path}#form`);
     });
   };
 
@@ -27,7 +27,7 @@ export function CardOptions({ requests }: { requests: CardOptionsProps[] }) {
       {requests.map((request) => (
         <Card
           className={cn(
-            "relative z-10",
+            "relative z-10 transition-shadow duration-300 ease-in-out hover:shadow-lg",
             request.active && "bg-gray-100 outline outline-blue-400",
             isPending && "pointer-events-none opacity-50",
           )}
