@@ -27,7 +27,14 @@ import {
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
+import {
+  ACCEPTED_IMAGE_TYPES,
+  VALID_ID_TYPES,
+} from "@/app/(dashboard)/request/data";
+import { Hover } from "@/components/hover";
+import { uploadFile } from "../request/upload-file";
+import createSupabaseBrowserClient from "@/lib/supabase/client";
 
 const formSchema = z.object({
   phone: z
@@ -63,9 +70,19 @@ const formSchema = z.object({
       required_error: "A barangay is required.",
     })
     .min(3, "Barangay must be at least 3 characters."),
+  upload_proof: z
+    .any()
+    .refine((files) => files?.length == 1, "Please upload a valid file.")
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
+      "Please upload a valid file. (Accepted file types: jpg, jpeg, png)",
+    ),
 });
 
 export function ContinuationForm() {
+  const [userId, setUserId] = useState("");
+  const supabase = createSupabaseBrowserClient();
+
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
@@ -74,12 +91,38 @@ export function ContinuationForm() {
       barangay: "Pasong Camachile 1",
       city: "General Trias",
       province: "Cavite",
+      phone: "",
+      street: "",
+      subdivision: "",
     },
   });
 
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (user) {
+          setUserId(user.id);
+        } else {
+          setUserId("");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUser();
+  }, [supabase.auth]);
+
   function onSubmit(data: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const result = await handleContinuationForm(data);
+      const file = data.upload_proof[0];
+      if (file) {
+        await uploadFile(file, userId);
+      }
+      const { upload_proof, ...rest } = data;
+      const result = await handleContinuationForm(rest);
 
       const { error } = JSON.parse(result);
 
@@ -91,6 +134,8 @@ export function ContinuationForm() {
       }
     });
   }
+
+  const fileRef = form.register("upload_proof", { required: true });
 
   return (
     <Form {...form}>
@@ -239,6 +284,44 @@ export function ContinuationForm() {
               </FormItem>
             )}
           />
+
+          <div className="md:col-span-2">
+            <FormField
+              control={form.control}
+              name="upload_proof"
+              render={({ field }) => (
+                <FormItem className="md:w-1/3">
+                  <FormLabel>Please upload a proof of identification</FormLabel>
+                  <Hover
+                    trigger={
+                      <Button
+                        variant={"link"}
+                        className="touch-none text-sm"
+                        type="button"
+                      >
+                        valid IDs
+                      </Button>
+                    }
+                  >
+                    <ul className="list-disc space-y-1 px-3">
+                      {VALID_ID_TYPES.map((id) => (
+                        <li key={id}>{id}</li>
+                      ))}
+                    </ul>
+                  </Hover>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      {...fileRef}
+                      accept="image/png, image/jpeg, image/jpg"
+                      disabled={isPending}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
         <div className="mt-5 space-y-4">
           <Button
