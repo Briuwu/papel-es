@@ -16,7 +16,7 @@ import { ProfileType, AddressType } from "@/types";
 import Link from "next/link";
 import { handleIDForm } from "../action";
 import createSupabaseBrowserClient from "@/lib/supabase/client";
-import { uploadFile } from "../upload-file";
+import { uploadFile } from "../../upload-file";
 
 import { Button } from "@/components/ui/button";
 import {

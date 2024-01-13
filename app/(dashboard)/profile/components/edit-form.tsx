@@ -1,10 +1,14 @@
 "use client";
 
 import * as z from "zod";
+import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import validator from "validator";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,18 +21,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { handleUpdateProfile } from "@/app/(dashboard)/profile/actions";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { useTransition } from "react";
+import { Hover } from "@/components/hover";
+
 import { ProfileType, AddressType } from "@/types";
+import {
+  ACCEPTED_IMAGE_TYPES,
+  VALID_ID_TYPES,
+} from "@/app/(dashboard)/request/data";
+import { handleUpdateProfile } from "@/app/(dashboard)/profile/actions";
+import createSupabaseBrowserClient from "@/lib/supabase/client";
+import { uploadFile } from "@/app/(dashboard)/upload-file";
 
 const formSchema = z.object({
   firstName: z
@@ -69,6 +77,13 @@ const formSchema = z.object({
       required_error: "A barangay is required.",
     })
     .min(3, "Barangay must be at least 3 characters."),
+  upload_proof: z
+    .any()
+    .refine((files) => files?.length == 1, "Please upload a valid file.")
+    .refine(
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
+      "Please upload a valid file. (Accepted file types: jpg, jpeg, png)",
+    ),
 });
 
 export function EditForm({
@@ -80,6 +95,9 @@ export function EditForm({
 }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [userId, setUserId] = useState("");
+  const supabase = createSupabaseBrowserClient();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -96,9 +114,32 @@ export function EditForm({
     },
   });
 
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (user) {
+          setUserId(user.id);
+        } else {
+          setUserId("");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getUser();
+  }, [supabase.auth]);
+
   function onSubmit(data: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const result = await handleUpdateProfile(data);
+      const file = data.upload_proof[0];
+      if (file) {
+        await uploadFile(file, userId);
+      }
+      const { upload_proof, ...rest } = data;
+      const result = await handleUpdateProfile(rest);
 
       const { error } = JSON.parse(result);
 
@@ -110,6 +151,8 @@ export function EditForm({
       }
     });
   }
+
+  const fileRef = form.register("upload_proof", { required: true });
 
   return (
     <Form {...form}>
@@ -309,6 +352,44 @@ export function EditForm({
               </FormItem>
             )}
           />
+
+          <div className="md:col-span-2">
+            <FormField
+              control={form.control}
+              name="upload_proof"
+              render={({ field }) => (
+                <FormItem className="md:w-1/3">
+                  <FormLabel>Please upload a proof of identification</FormLabel>
+                  <Hover
+                    trigger={
+                      <Button
+                        variant={"link"}
+                        className="touch-none text-sm"
+                        type="button"
+                      >
+                        valid IDs
+                      </Button>
+                    }
+                  >
+                    <ul className="list-disc space-y-1 px-3">
+                      {VALID_ID_TYPES.map((id) => (
+                        <li key={id}>{id}</li>
+                      ))}
+                    </ul>
+                  </Hover>
+                  <FormControl>
+                    <Input
+                      type="file"
+                      {...fileRef}
+                      accept="image/png, image/jpeg, image/jpg"
+                      disabled={isPending}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
 
         <div className="mt-5 space-y-4">
