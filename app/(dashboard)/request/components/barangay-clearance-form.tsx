@@ -46,13 +46,6 @@ const formSchema = z.object({
     .refine((value) => {
       return purposes.some((purpose) => purpose.value === value);
     }),
-  upload_proof: z
-    .any()
-    .refine((files) => files?.length == 1, "Please upload a valid file.")
-    .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
-      "Please upload a valid file. (Accepted file types: jpg, jpeg, png)",
-    ),
 });
 
 export function BarangayClearanceForm({
@@ -62,39 +55,15 @@ export function BarangayClearanceForm({
   user: ProfileType;
   address: AddressType;
 }) {
-  const supabase = createSupabaseBrowserClient();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [userId, setUserId] = useState("");
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-        if (user) {
-          setUserId(user.id);
-        } else {
-          setUserId("");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUser();
-  }, [supabase.auth]);
-
   function onSubmit(data: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const file = data.upload_proof[0];
-      if (file) {
-        await uploadFile(file, userId);
-      }
       const result = await handleClearanceForm({ purpose: data.purpose });
 
       const { error } = JSON.parse(result);
@@ -107,8 +76,6 @@ export function BarangayClearanceForm({
       }
     });
   }
-
-  const fileRef = form.register("upload_proof", { required: true });
 
   return (
     <Form {...form}>
@@ -209,7 +176,7 @@ export function BarangayClearanceForm({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="grid gap-5">
           <p className="font-bold md:col-span-2">Address Information</p>
           <div className="space-y-1">
             <Label htmlFor="street">Street</Label>
@@ -256,7 +223,7 @@ export function BarangayClearanceForm({
               className="disabled:font-semibold"
             />
           </div>
-          <p className="col-span-2 text-sm italic text-orange-700">
+          <p className="text-sm italic text-orange-700 md:col-span-2">
             <span className="font-semibold">Note:</span> In order to change your
             personal & address information, please go to{" "}
             <Link href={"/profile"} className="font-bold text-black underline">
@@ -264,42 +231,6 @@ export function BarangayClearanceForm({
             </Link>
           </p>
         </div>
-
-        <FormField
-          control={form.control}
-          name="upload_proof"
-          render={({ field }) => (
-            <FormItem className="md:w-1/3">
-              <FormLabel>Please upload a proof of identification</FormLabel>
-              <Hover
-                trigger={
-                  <Button
-                    variant={"link"}
-                    className="touch-none text-sm"
-                    type="button"
-                  >
-                    valid IDs
-                  </Button>
-                }
-              >
-                <ul className="list-disc space-y-1 px-3">
-                  {VALID_ID_TYPES.map((id) => (
-                    <li key={id}>{id}</li>
-                  ))}
-                </ul>
-              </Hover>
-              <FormControl>
-                <Input
-                  type="file"
-                  {...fileRef}
-                  accept="image/png, image/jpeg, image/jpg"
-                  disabled={isPending}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         <div className="mt-5 space-y-4">
           {Object.keys(form.formState.errors).length > 0 && (
