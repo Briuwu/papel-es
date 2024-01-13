@@ -10,6 +10,6 @@ export async function uploadFile(file: File, userId: string) {
     .upload(filePath, file);
 
   if (error) {
-    throw new Error("Error uploading file");
+    throw error;
   }
 }
