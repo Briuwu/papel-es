@@ -18,8 +18,26 @@ export async function handleRegister(data: RegisterDataType) {
     },
   });
 
-  if (error) {
-    return JSON.stringify({ error: error.message });
+  let authError = null;
+
+  // User exists, but is fake. See https://supabase.com/docs/reference/javascript/auth-signup
+  if (
+    result.user &&
+    result.user.identities &&
+    result.user.identities.length === 0
+  ) {
+    authError = {
+      name: "AuthApiError",
+      message: "Email already exists",
+    };
+  } else if (error)
+    authError = {
+      name: error.name,
+      message: error.message,
+    };
+
+  if (authError) {
+    return JSON.stringify({ error: authError?.message });
   }
 
   return JSON.stringify(result);

@@ -49,6 +49,14 @@ export function RegisterForm() {
   const [isPending, startTransition] = useTransition();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      middleName: "",
+      confirmPassword: "",
+    },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
