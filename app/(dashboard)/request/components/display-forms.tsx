@@ -1,6 +1,4 @@
-import { Suspense } from "react";
 import { BarangayClearanceForm } from "./barangay-clearance-form";
-import { FormSkeleton } from "./form-skeleton";
 import { readUserSession } from "@/lib/supabase/read-session";
 import { redirect } from "next/navigation";
 import createSupabaseServerClient from "@/lib/supabase/server";
@@ -51,15 +49,15 @@ export async function DisplayForm({
       switch (request.path) {
         case "barangay-clearance":
           return (
-            <Suspense key={request.path} fallback={<FormSkeleton />}>
-              <BarangayClearanceForm user={user} address={address} />
-            </Suspense>
+            <BarangayClearanceForm
+              key={request.id}
+              user={user}
+              address={address}
+            />
           );
         case "barangay-id":
           return (
-            <Suspense key={request.path} fallback={<FormSkeleton />}>
-              <BarangayIdForm user={user} address={address} />
-            </Suspense>
+            <BarangayIdForm key={request.id} user={user} address={address} />
           );
         case "incident-report":
           return null;
