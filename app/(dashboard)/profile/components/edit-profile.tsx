@@ -19,10 +19,6 @@ export async function EditProfile() {
     data: { session },
   } = await readUserSession();
 
-  if (!session) {
-    throw new Error("User not found");
-  }
-
   if (!session) return redirect("/account");
 
   const [profileResult, addressResult] = await Promise.all([
