@@ -33,7 +33,7 @@ export async function handleContinuationForm(data: ContinuationFormType) {
     .from("profiles")
     .update({
       phone_number: data.phone,
-      date_of_birth: data.dob.toLocaleString(),
+      date_of_birth: data.dob.toUTCString(),
       address_id: address.id,
       isVerified: true,
     })

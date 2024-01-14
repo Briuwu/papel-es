@@ -231,7 +231,7 @@ export function EditForm({
                   <PopoverTrigger asChild disabled={isPending}>
                     <FormControl>
                       <Button variant={"outline"}>
-                        {field.value ? (
+                        {field.value.toDateString() ? (
                           format(field.value, "PPP")
                         ) : (
                           <span>Pick a date</span>

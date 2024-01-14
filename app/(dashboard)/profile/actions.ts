@@ -68,7 +68,7 @@ export async function handleUpdateProfile(data: EditFormType) {
       middle_name: data.middleName,
       last_name: data.lastName,
       phone_number: data.phone,
-      date_of_birth: data.dob.toLocaleString(),
+      date_of_birth: data.dob.toUTCString(),
     })
     .eq("id", session?.user.id);
 
