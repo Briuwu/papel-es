@@ -3,6 +3,7 @@
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { transformMiddleInitial } from "@/lib/utils";
 import { EditFormType } from "@/types";
+import { revalidatePath } from "next/cache";
 
 export async function handleLogout() {
   const supabase = await createSupabaseServerClient();
@@ -87,6 +88,7 @@ export async function handleUpdateProfile(data: EditFormType) {
     })
     .eq("profile_id", session?.user.id);
 
+  revalidatePath("/profile");
   if (addressError) {
     return JSON.stringify({ error: addressError.message });
   }

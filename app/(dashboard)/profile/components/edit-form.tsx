@@ -4,7 +4,6 @@ import * as z from "zod";
 import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
 import validator from "validator";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
@@ -30,10 +29,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Hover } from "@/components/hover";
 
 import { ProfileType, AddressType } from "@/types";
-import {
-  ACCEPTED_IMAGE_TYPES,
-  VALID_ID_TYPES,
-} from "@/app/(dashboard)/request/data";
+import { VALID_ID_TYPES } from "@/app/(dashboard)/request/data";
 import { handleUpdateProfile } from "@/app/(dashboard)/profile/actions";
 import createSupabaseBrowserClient from "@/lib/supabase/client";
 import { uploadFile } from "@/app/(dashboard)/upload-file";
@@ -87,7 +83,6 @@ export function EditForm({
   user: ProfileType;
   address: AddressType;
 }) {
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [userId, setUserId] = useState("");
   const supabase = createSupabaseBrowserClient();
@@ -141,7 +136,6 @@ export function EditForm({
         toast.error(error);
       } else {
         toast.success("Account successfully updated!");
-        router.push("/account");
       }
     });
   }
