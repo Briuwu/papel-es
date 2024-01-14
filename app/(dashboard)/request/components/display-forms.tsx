@@ -19,29 +19,33 @@ export async function DisplayForm({
   displayOptions: DisplayOptionsType;
   opt?: string | null;
 }) {
+  const supabase = await createSupabaseServerClient();
   const {
     data: { session },
   } = await readUserSession();
 
   if (!session) return redirect("/account");
 
-  const supabase = await createSupabaseServerClient();
+  const [profileResult, addressResult] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", session?.user?.id)
+      .single(),
+    supabase
+      .from("address")
+      .select("*")
+      .eq("profile_id", session?.user.id)
+      .single(),
+  ]);
 
-  const { data: user, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", session?.user?.id)
-    .single();
+  const profileError = profileResult.error;
+  const addressError = addressResult.error;
 
-  if (error) return redirect("/account");
+  if (profileError || addressError) return redirect("/account");
 
-  const { data: address } = await supabase
-    .from("address")
-    .select("*")
-    .eq("id", user.address_id!)
-    .single();
-
-  if (!user || !address) return <p>Something went wrong...</p>;
+  const user = profileResult.data;
+  const address = addressResult.data;
 
   return (
     displayOptions.length > 0 &&
