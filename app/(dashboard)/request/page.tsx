@@ -38,11 +38,11 @@ export default async function RequestPage({
 
   return (
     <div className="space-y-10">
-      <h1 className="text-lg font-bold md:text-3xl uppercase sm:text-xl">
+      <h1 className="text-lg font-bold uppercase sm:text-xl md:text-3xl">
         I am requesting for
         {displayOptions.length > 0 ? " " + displayOptions[0].name : "..."}
       </h1>
-      <div className="grid md:grid-cols-3 gap-5 sm:grid-cols-2 grid-cols-1">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
         <CardOptions requests={requests} />
       </div>
 
