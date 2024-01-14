@@ -42,7 +42,9 @@ export async function DisplayForm({
   const profileError = profileResult.error;
   const addressError = addressResult.error;
 
-  if (profileError || addressError) return redirect("/account");
+  if (profileError || addressError) {
+    throw new Error("Error fetching data");
+  }
 
   const user = profileResult.data;
   const address = addressResult.data;
