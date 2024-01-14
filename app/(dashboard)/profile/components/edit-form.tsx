@@ -77,13 +77,7 @@ const formSchema = z.object({
       required_error: "A barangay is required.",
     })
     .min(3, "Barangay must be at least 3 characters."),
-  upload_proof: z
-    .any()
-    .refine((files) => files?.length == 1, "Please upload a valid file.")
-    .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
-      "Please upload a valid file. (Accepted file types: jpg, jpeg, png)",
-    ),
+  upload_proof: z.any().optional(),
 });
 
 export function EditForm({
@@ -358,8 +352,8 @@ export function EditForm({
               control={form.control}
               name="upload_proof"
               render={({ field }) => (
-                <FormItem className="md:w-1/3">
-                  <FormLabel>Please upload a proof of identification</FormLabel>
+                <FormItem className="w-1/2">
+                  <FormLabel>Add a new proof of identification?</FormLabel>
                   <Hover
                     trigger={
                       <Button

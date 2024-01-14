@@ -243,7 +243,7 @@ export function BarangayClearanceForm({
             className="mr-auto block rounded font-bold"
             disabled={isPending}
           >
-            Review Request
+            Submit Request
           </Button>
         </div>
       </form>

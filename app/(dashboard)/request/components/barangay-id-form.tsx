@@ -7,40 +7,24 @@ import { useRouter } from "next/navigation";
 import validator from "validator";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
-import { useEffect, useState, useTransition } from "react";
-import {
-  ACCEPTED_IMAGE_TYPES,
-  VALID_ID_TYPES,
-} from "@/app/(dashboard)/request/data";
+import { useState, useTransition } from "react";
 import { ProfileType, AddressType } from "@/types";
 import Link from "next/link";
-import { handleIDForm } from "../action";
-import createSupabaseBrowserClient from "@/lib/supabase/client";
-import { uploadFile } from "../../upload-file";
 
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Hover } from "@/components/hover";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const formSchema = z.object({
-  upload_proof: z
-    .any()
-    .refine((files) => files?.length == 1, "Please upload a valid file.")
-    .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
-      "Please upload a valid file. (Accepted file types: jpg, jpeg, png)",
-    ),
   first_name: z
     .string({
       required_error: "First name is required.",
@@ -94,10 +78,8 @@ export function BarangayIdForm({
   user: ProfileType;
   address: AddressType;
 }) {
-  const supabase = createSupabaseBrowserClient();
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
-  const [userId, setUserId] = useState("");
   const [isSameAddress, setIsSameAddress] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -116,32 +98,10 @@ export function BarangayIdForm({
     },
   });
 
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const {
-          data: { user },
-        } = await supabase.auth.getUser();
-        if (user) {
-          setUserId(user.id);
-        } else {
-          setUserId("");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUser();
-  }, [supabase.auth]);
-
   function onSubmit(data: z.infer<typeof formSchema>) {
     toast.error("This feature is not yet available.");
     console.log(data);
     // startTransition(async () => {
-    //   const file = data.upload_proof[0];
-    //   if (file) {
-    //     await uploadFile(file, userId);
-    //   }
     //   const result = await handleIDForm();
 
     //   const { error } = JSON.parse(result);
@@ -154,8 +114,6 @@ export function BarangayIdForm({
     //   }
     // });
   }
-
-  const fileRef = form.register("upload_proof", { required: true });
 
   return (
     <Form {...form}>
@@ -461,42 +419,6 @@ export function BarangayIdForm({
           </div>
         </div>
 
-        <FormField
-          control={form.control}
-          name="upload_proof"
-          render={({ field }) => (
-            <FormItem className="md:w-1/3">
-              <FormLabel>Please upload a proof of identification</FormLabel>
-              <Hover
-                trigger={
-                  <Button
-                    variant={"link"}
-                    className="touch-none text-sm"
-                    type="button"
-                  >
-                    valid IDs
-                  </Button>
-                }
-              >
-                <ul className="list-disc space-y-1 px-3">
-                  {VALID_ID_TYPES.map((id) => (
-                    <li key={id}>{id}</li>
-                  ))}
-                </ul>
-              </Hover>
-              <FormControl>
-                <Input
-                  type="file"
-                  {...fileRef}
-                  accept="image/png, image/jpeg, image/jpg"
-                  disabled={isPending}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <div className="mt-5 space-y-4">
           {Object.keys(form.formState.errors).length > 0 && (
             <p className="text-sm text-red-500">
@@ -508,7 +430,7 @@ export function BarangayIdForm({
             className="mr-auto block rounded font-bold"
             disabled={isPending}
           >
-            Review Request
+            Submit Request
           </Button>
         </div>
       </form>
