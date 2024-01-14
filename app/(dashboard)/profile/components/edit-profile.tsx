@@ -37,9 +37,7 @@ export async function EditProfile() {
   const profileError = profileResult.error;
   const addressError = addressResult.error;
 
-  if (profileError || addressError) {
-    throw new Error("Error fetching profile");
-  }
+  if (profileError || addressError) return redirect("/account");
 
   const user = profileResult.data;
   const address = addressResult.data;
