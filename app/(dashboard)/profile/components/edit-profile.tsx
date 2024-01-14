@@ -14,29 +14,39 @@ import {
 import { redirect } from "next/navigation";
 
 export async function EditProfile() {
+  const supabase = await createSupabaseServerClient();
   const {
     data: { session },
   } = await readUserSession();
 
-  const supabase = await createSupabaseServerClient();
+  if (!session) {
+    throw new Error("User not found");
+  }
 
   if (!session) return redirect("/account");
 
-  const { data: user, error } = await supabase
-    .from("profiles")
-    .select("*")
-    .eq("id", session?.user?.id)
-    .single();
+  const [profileResult, addressResult] = await Promise.all([
+    supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", session?.user?.id)
+      .single(),
+    supabase
+      .from("address")
+      .select("*")
+      .eq("profile_id", session?.user.id)
+      .single(),
+  ]);
 
-  if (!user) return null;
+  const profileError = profileResult.error;
+  const addressError = addressResult.error;
 
-  const { data: address } = await supabase
-    .from("address")
-    .select("*")
-    .eq("id", user.address_id!)
-    .single();
+  if (profileError || addressError) {
+    throw new Error("Error fetching profile");
+  }
 
-  if (!address) return null;
+  const user = profileResult.data;
+  const address = addressResult.data;
 
   return (
     <>
