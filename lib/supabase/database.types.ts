@@ -15,7 +15,7 @@ export interface Database {
           city: string | null
           created_at: string
           id: string
-          profile_id: string
+          profile_id: string | null
           province: string | null
           street: string | null
           subdivision: string | null
@@ -25,7 +25,7 @@ export interface Database {
           city?: string | null
           created_at?: string
           id?: string
-          profile_id: string
+          profile_id?: string | null
           province?: string | null
           street?: string | null
           subdivision?: string | null
@@ -35,7 +35,7 @@ export interface Database {
           city?: string | null
           created_at?: string
           id?: string
-          profile_id?: string
+          profile_id?: string | null
           province?: string | null
           street?: string | null
           subdivision?: string | null
@@ -96,7 +96,6 @@ export interface Database {
           emergency_id: string | null
           id: string
           profile_id: string | null
-          proof_id: string | null
         }
         Insert: {
           created_at?: string
@@ -104,7 +103,6 @@ export interface Database {
           emergency_id?: string | null
           id?: string
           profile_id?: string | null
-          proof_id?: string | null
         }
         Update: {
           created_at?: string
@@ -112,7 +110,6 @@ export interface Database {
           emergency_id?: string | null
           id?: string
           profile_id?: string | null
-          proof_id?: string | null
         }
         Relationships: [
           {
@@ -172,7 +169,8 @@ export interface Database {
       }
       emergency_contact: {
         Row: {
-          address_id: string | null
+          barangay: string | null
+          city: string | null
           created_at: string
           first_name: string | null
           id: string
@@ -180,9 +178,13 @@ export interface Database {
           middle_name: string | null
           phone_number: string | null
           profile_id: string | null
+          province: string | null
+          street: string | null
+          subdivision: string | null
         }
         Insert: {
-          address_id?: string | null
+          barangay?: string | null
+          city?: string | null
           created_at?: string
           first_name?: string | null
           id?: string
@@ -190,9 +192,13 @@ export interface Database {
           middle_name?: string | null
           phone_number?: string | null
           profile_id?: string | null
+          province?: string | null
+          street?: string | null
+          subdivision?: string | null
         }
         Update: {
-          address_id?: string | null
+          barangay?: string | null
+          city?: string | null
           created_at?: string
           first_name?: string | null
           id?: string
@@ -200,15 +206,11 @@ export interface Database {
           middle_name?: string | null
           phone_number?: string | null
           profile_id?: string | null
+          province?: string | null
+          street?: string | null
+          subdivision?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "emergency_contact_address_id_fkey"
-            columns: ["address_id"]
-            isOneToOne: false
-            referencedRelation: "address"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "emergency_contact_profile_id_fkey"
             columns: ["profile_id"]
