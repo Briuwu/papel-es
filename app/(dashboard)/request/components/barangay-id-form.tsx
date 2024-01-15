@@ -23,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { handleIDForm } from "../action";
 
 const formSchema = z.object({
   first_name: z
@@ -99,20 +100,18 @@ export function BarangayIdForm({
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    toast.error("This feature is not yet available.");
-    console.log(data);
-    // startTransition(async () => {
-    //   const result = await handleIDForm();
+    startTransition(async () => {
+      const result = await handleIDForm(data);
 
-    //   const { error } = JSON.parse(result);
+      const { error } = JSON.parse(result);
 
-    //   if (error) {
-    //     toast.error(error);
-    //   } else {
-    //     toast.success("Request submitted successfully.");
-    //     router.push(`/profile`);
-    //   }
-    // });
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success("Request submitted successfully.");
+        router.push(`/profile`);
+      }
+    });
   }
 
   return (
