@@ -3,6 +3,7 @@ import { readUserSession } from "@/lib/supabase/read-session";
 import { redirect } from "next/navigation";
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { BarangayIdForm } from "./barangay-id-form";
+import { IncidentReportForm } from "./incident-report-form";
 
 type DisplayOptionsType = {
   id: number;
@@ -66,7 +67,13 @@ export async function DisplayForm({
             <BarangayIdForm key={request.id} user={user} address={address} />
           );
         case "incident-report":
-          return null;
+          return (
+            <IncidentReportForm
+              key={request.id}
+              user={user}
+              address={address}
+            />
+          );
         default:
           return null;
       }
