@@ -26,6 +26,19 @@ export type ContinuationFormType = {
   barangay: string;
 };
 
+export type BarangayIdFormType = {
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  street: string;
+  barangay: string;
+  province: string;
+  subdivision: string;
+  city: string;
+  isSameAddress: boolean;
+  middle_name?: string | undefined;
+};
+
 export type RegisterDataType = {
   email: string;
   password: string;
