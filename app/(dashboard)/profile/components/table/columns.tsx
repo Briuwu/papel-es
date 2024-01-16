@@ -37,10 +37,10 @@ export const columns: ColumnDef<Documents>[] = [
       return (
         <span
           className={cn(
-            "rounded-full px-2 py-1 text-xs font-bold",
-            status === "processing" && "bg-yellow-500 text-white",
-            status === "ready" && "bg-green-500 text-white",
-            status === "rejected" && "bg-red-500 text-white",
+            "rounded-full px-2 py-1 text-xs font-bold text-white",
+            status === "processing" && "bg-yellow-500",
+            status === "ready" && "bg-green-500",
+            status === "rejected" && "bg-red-500",
           )}
         >
           {status}
