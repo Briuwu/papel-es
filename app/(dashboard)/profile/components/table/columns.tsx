@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { Documents } from "@/types";
+import { cn } from "@/lib/utils";
 
 const documentsMap = {
   barangay_id: "Barangay ID",
@@ -35,13 +36,12 @@ export const columns: ColumnDef<Documents>[] = [
 
       return (
         <span
-          className={`rounded-full px-2 py-1 text-xs font-semibold text-white ${
-            status === "processing"
-              ? "bg-yellow-500"
-              : status === "rejected"
-                ? "bg-red-500"
-                : "bg-green-500"
-          }`}
+          className={cn(
+            "rounded-full px-2 py-1 text-xs font-bold",
+            status === "processing" && "bg-yellow-500 text-white",
+            status === "ready" && "bg-green-500 text-white",
+            status === "rejected" && "bg-red-500 text-white",
+          )}
         >
           {status}
         </span>

@@ -4,6 +4,7 @@ import { EditProfile } from "@/app/(dashboard)/profile/components/edit-profile";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { RequestedDocuments } from "./components/table/requested-documents";
+import { TableSkeleton } from "./components/table/table-skeleton";
 
 export default async function DashboardPage() {
   return (
@@ -15,7 +16,9 @@ export default async function DashboardPage() {
         </Suspense>
       </div>
       <Separator className="mt-5 bg-black" />
-      <RequestedDocuments />
+      <Suspense fallback={<TableSkeleton />}>
+        <RequestedDocuments />
+      </Suspense>
     </>
   );
 }

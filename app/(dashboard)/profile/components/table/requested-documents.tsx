@@ -1,6 +1,9 @@
 import createSupabaseServerClient from "@/lib/supabase/server";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { FilePlus } from "lucide-react";
 
 export async function RequestedDocuments() {
   const supabase = await createSupabaseServerClient();
@@ -31,7 +34,16 @@ export async function RequestedDocuments() {
   }));
 
   return (
-    <div className="my-10">
+    <div className="my-10 space-y-3">
+      <div className="flex flex-col-reverse items-start justify-between gap-2 md:flex-row md:items-center">
+        <h2 className="font-bold md:text-2xl">Requested Documents</h2>
+        <Button asChild variant={"outline"}>
+          <Link href={"/request"}>
+            <FilePlus className="mr-2" size={18} />
+            Request a document
+          </Link>
+        </Button>
+      </div>
       <DataTable columns={columns} data={data} />
     </div>
   );
