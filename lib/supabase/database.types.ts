@@ -138,24 +138,24 @@ export interface Database {
       documents: {
         Row: {
           created_at: string
-          document_type: Database["public"]["Enums"]["document_types"] | null
+          document_type: Database["public"]["Enums"]["document_types"]
           id: string
           profile_id: string | null
-          status: Database["public"]["Enums"]["document_status"] | null
+          status: Database["public"]["Enums"]["document_status"]
         }
         Insert: {
           created_at?: string
-          document_type?: Database["public"]["Enums"]["document_types"] | null
+          document_type: Database["public"]["Enums"]["document_types"]
           id?: string
           profile_id?: string | null
-          status?: Database["public"]["Enums"]["document_status"] | null
+          status?: Database["public"]["Enums"]["document_status"]
         }
         Update: {
           created_at?: string
-          document_type?: Database["public"]["Enums"]["document_types"] | null
+          document_type?: Database["public"]["Enums"]["document_types"]
           id?: string
           profile_id?: string | null
-          status?: Database["public"]["Enums"]["document_status"] | null
+          status?: Database["public"]["Enums"]["document_status"]
         }
         Relationships: [
           {
@@ -227,6 +227,7 @@ export interface Database {
           id: string
           incident_location: string | null
           incident_narrative: string | null
+          incident_time: string | null
           incident_type: string | null
           involved_parties: string[] | null
           profile_id: string | null
@@ -237,6 +238,7 @@ export interface Database {
           id?: string
           incident_location?: string | null
           incident_narrative?: string | null
+          incident_time?: string | null
           incident_type?: string | null
           involved_parties?: string[] | null
           profile_id?: string | null
@@ -247,6 +249,7 @@ export interface Database {
           id?: string
           incident_location?: string | null
           incident_narrative?: string | null
+          incident_time?: string | null
           incident_type?: string | null
           involved_parties?: string[] | null
           profile_id?: string | null

@@ -3,6 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { EditProfile } from "@/app/(dashboard)/profile/components/edit-profile";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { RequestedDocuments } from "./components/table/requested-documents";
 
 export default async function DashboardPage() {
   return (
@@ -13,7 +14,8 @@ export default async function DashboardPage() {
           <EditProfile />
         </Suspense>
       </div>
-      <Separator className="mt-5 h-[2px] bg-black" />
+      <Separator className="mt-5 bg-black" />
+      <RequestedDocuments />
     </>
   );
 }

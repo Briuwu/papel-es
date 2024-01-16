@@ -3,6 +3,13 @@ import { Tables } from "./lib/supabase/database.types";
 export type AddressType = Tables<"address">;
 export type ProfileType = Tables<"profiles">;
 
+export type Documents = {
+  id: string;
+  status: "processing" | "rejected" | "ready";
+  type: "barangay_id" | "barangay_clearance" | "incident_report";
+  date: string;
+};
+
 export type EditFormType = {
   firstName: string;
   lastName: string;
