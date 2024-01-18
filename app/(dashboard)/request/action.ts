@@ -117,6 +117,7 @@ export async function handleIncidentReportForm(data: IncidentReportFormType) {
     .insert({
       profile_id: session.user.id,
       document_type: "incident_report",
+      status: "processing",
     })
     .select()
     .single();
@@ -132,7 +133,7 @@ export async function handleIncidentReportForm(data: IncidentReportFormType) {
       incident_location: data.incident_location,
       incident_narrative: data.incident_narrative,
       involved_parties: arrInvolvedParties,
-      incident_date: data.incident_date,
+      incident_time: data.incident_date.toUTCString(),
     })
     .select()
     .single();
