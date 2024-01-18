@@ -2,7 +2,7 @@
 
 import { readUserSession } from "@/lib/supabase/read-session";
 import createSupabaseServerClient from "@/lib/supabase/server";
-import { BarangayIdFormType } from "@/types";
+import { BarangayIdFormType, IncidentReportFormType } from "@/types";
 
 export async function handleClearanceForm(data: { purpose: string }) {
   const supabase = await createSupabaseServerClient();
@@ -95,6 +95,49 @@ export async function handleIDForm(data: BarangayIdFormType) {
 
   if (documentIdError)
     return JSON.stringify({ error: documentIdError.message });
+
+  return JSON.stringify({ success: true });
+}
+
+export async function handleIncidentReportForm(data: IncidentReportFormType) {
+  const supabase = await createSupabaseServerClient();
+
+  const arrInvolvedParties = data.involved_parties.split(",");
+
+  const {
+    data: { session },
+  } = await readUserSession();
+
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
+
+  const { data: document, error: documentError } = await supabase
+    .from("documents")
+    .insert({
+      profile_id: session.user.id,
+      document_type: "incident_report",
+    })
+    .select()
+    .single();
+
+  if (documentError) return JSON.stringify({ error: documentError.message });
+
+  const { error: incidentError } = await supabase
+    .from("incident_report_request")
+    .insert({
+      document_id: document.id,
+      profile_id: session.user.id,
+      incident_type: data.incident_type,
+      incident_location: data.incident_location,
+      incident_narrative: data.incident_narrative,
+      involved_parties: arrInvolvedParties,
+      incident_date: data.incident_date,
+    })
+    .select()
+    .single();
+
+  if (incidentError) return JSON.stringify({ error: incidentError.message });
 
   return JSON.stringify({ success: true });
 }

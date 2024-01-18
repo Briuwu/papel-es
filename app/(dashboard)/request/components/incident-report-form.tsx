@@ -9,7 +9,7 @@ import { format } from "date-fns";
 import { useState, useTransition } from "react";
 import { ProfileType, AddressType } from "@/types";
 import Link from "next/link";
-import { handleIDForm } from "../action";
+import { handleIDForm, handleIncidentReportForm } from "../action";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -56,9 +56,6 @@ const formSchema = z.object({
   incident_date: z.date({
     required_error: "An incident date is required.",
   }),
-  incident_time: z.string({
-    required_error: "An incident time is required.",
-  }),
 });
 
 export function IncidentReportForm({
@@ -78,22 +75,20 @@ export function IncidentReportForm({
       incident_location: "",
       incident_narrative: "",
       involved_parties: "",
-      incident_time: "",
     },
   });
 
   function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
-    // startTransition(async () => {
-    //   const result = await handleIDForm(data);
-    //   const { error } = JSON.parse(result);
-    //   if (error) {
-    //     toast.error(error);
-    //   } else {
-    //     toast.success("Request submitted successfully.");
-    //     router.push(`/profile`);
-    //   }
-    // });
+    startTransition(async () => {
+      const result = await handleIncidentReportForm(data);
+      const { error } = JSON.parse(result);
+      if (error) {
+        toast.error(error);
+      } else {
+        toast.success("Request submitted successfully.");
+        router.push(`/profile`);
+      }
+    });
   }
 
   return (
@@ -255,60 +250,43 @@ export function IncidentReportForm({
                 </FormItem>
               )}
             />
-            <div className="grid gap-2 md:grid-cols-2">
-              <p className="col-span-2 text-sm">
-                Inclusive Date and Time of Incident (Please be specific as
-                possible)
-              </p>
-              <FormField
-                control={form.control}
-                name="incident_date"
-                render={({ field }) => (
-                  <FormItem className="flex flex-col">
-                    <Popover>
-                      <PopoverTrigger asChild disabled={isPending}>
-                        <FormControl>
-                          <Button variant={"outline"}>
-                            {field.value ? (
-                              format(field.value, "PPP")
-                            ) : (
-                              <span>Pick a date</span>
-                            )}
-                            <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={field.value}
-                          onSelect={field.onChange}
-                          disabled={(date) =>
-                            date > new Date() || date < new Date("1900-01-01")
-                          }
-                          fromYear={1950}
-                          toYear={new Date().getFullYear()}
-                          captionLayout="dropdown"
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="incident_time"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input type="time" {...field} disabled={isPending} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
+            <FormField
+              control={form.control}
+              name="incident_date"
+              render={({ field }) => (
+                <FormItem className="flex flex-col">
+                  <FormLabel>Date of Incident</FormLabel>
+                  <Popover>
+                    <PopoverTrigger asChild disabled={isPending}>
+                      <FormControl>
+                        <Button variant={"outline"}>
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                          <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={field.value}
+                        onSelect={field.onChange}
+                        disabled={(date) =>
+                          date > new Date() || date < new Date("1900-01-01")
+                        }
+                        fromYear={1950}
+                        toYear={new Date().getFullYear()}
+                        captionLayout="dropdown"
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="involved_parties"

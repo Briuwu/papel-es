@@ -46,6 +46,14 @@ export type BarangayIdFormType = {
   middle_name?: string | undefined;
 };
 
+export type IncidentReportFormType = {
+  incident_type: string;
+  incident_location: string;
+  incident_narrative: string;
+  involved_parties: string;
+  incident_date: Date;
+};
+
 export type RegisterDataType = {
   email: string;
   password: string;
