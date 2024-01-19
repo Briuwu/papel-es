@@ -4,6 +4,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 import { Documents } from "@/types";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
 
 const documentsMap = {
   barangay_id: "Barangay ID",
@@ -19,7 +21,17 @@ export const columns: ColumnDef<Documents>[] = [
   },
   {
     accessorKey: "date",
-    header: "Requested Date",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant={"ghost"}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Requested Date
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     // convert the date to a human readable format
     cell: ({ row }) =>
       new Date(row.original.date).toLocaleDateString("default", {
