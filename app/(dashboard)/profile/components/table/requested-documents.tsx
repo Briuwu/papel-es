@@ -36,7 +36,10 @@ export async function RequestedDocuments() {
   return (
     <div className="my-10 space-y-3">
       <div className="flex flex-col-reverse items-start justify-between gap-2 md:flex-row md:items-center">
-        <h2 className="font-bold md:text-2xl">Requested Documents</h2>
+        <div className="flex flex-col gap-2 md:flex-row md:items-center">
+          <h2 className="font-bold md:text-2xl">Requested Documents</h2>
+        </div>
+
         <Button asChild variant={"outline"}>
           <Link href={"/request"}>
             <FilePlus className="mr-2" size={18} />
@@ -44,6 +47,7 @@ export async function RequestedDocuments() {
           </Link>
         </Button>
       </div>
+
       <DataTable columns={columns} data={data} />
     </div>
   );

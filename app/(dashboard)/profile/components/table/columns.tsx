@@ -59,6 +59,11 @@ export const columns: ColumnDef<Documents>[] = [
         </span>
       );
     },
+    enableColumnFilter: true,
+    filterFn: (row, columnId, filterStatuses) => {
+      const status = row.getValue(columnId);
+      return filterStatuses.includes(status);
+    },
   },
   {
     id: "actions",
